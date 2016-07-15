@@ -9,7 +9,7 @@ import java.util.Random;
 public class DiceData {
 
     int playerTotal = 5;
-    int playerDice[] = new int[]{0,0,0,0,0,0};
+    int []playerDice = new int[]{0,0,0,0,0,0};
 
     public int getPlayerTotal() {
         return playerTotal;
@@ -18,6 +18,8 @@ public class DiceData {
     public void setPlayerTotal(int playerTotal) {
         this.playerTotal = playerTotal;
     }
+
+    public int[] getPlayerDice() {return playerDice;}
 
     public void resetHand(){
         for(int i = 0; i<6;i++){

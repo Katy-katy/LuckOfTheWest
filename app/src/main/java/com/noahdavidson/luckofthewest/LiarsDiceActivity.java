@@ -30,7 +30,7 @@ public class LiarsDiceActivity extends AppCompatActivity{
     DiceData P5 = new DiceData();
 
 
-    static int totalDice[] = new int[6];
+    public static int [] totalDice= new int[6];
 
 
     private static final String TAG = LiarsDiceActivity.class.getSimpleName();
@@ -48,6 +48,7 @@ public class LiarsDiceActivity extends AppCompatActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_liars_dice);
 
@@ -236,6 +237,21 @@ public class LiarsDiceActivity extends AppCompatActivity{
 
     public void setDiceBid(ImageView view, int num){
         view.setImageResource(dice_img[num]);
+    }
+
+    public int[] setTotalDice (DiceData P1, DiceData P2,DiceData P3,DiceData P4,DiceData P5 ){
+        int[] p1 = P1.getPlayerDice();
+        int[] p2 = P2.getPlayerDice();
+        int[] p3 = P2.getPlayerDice();
+        int[] p4 = P2.getPlayerDice();
+        int[] p5 = P2.getPlayerDice();
+
+        //May cause error if P1 is out of the game??//
+
+        for(int i = 0; i < P1.getPlayerTotal(); i++){
+            totalDice[i] = p1[i] + p2[i] + p3[i] + p4[i] +p5[i];
+        }
+        return totalDice;
     }
 }
 

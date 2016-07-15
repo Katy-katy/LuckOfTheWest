@@ -6,9 +6,9 @@
         <bitmap android:src="@drawable/small_downarrow_front1"/>
     </item>
 
-    <item
+    <itemplayerDice
         android:state_activated="false">
         <bitmap android:src="@drawable/small_downarrow_front3"/>
-    </item>
+    </itemplayerDice>
 
 </selector>

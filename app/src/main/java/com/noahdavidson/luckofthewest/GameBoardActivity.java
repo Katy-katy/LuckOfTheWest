@@ -83,7 +83,6 @@ public class GameBoardActivity extends AppCompatActivity {
         Button txMine = (Button)findViewById(R.id.miningButton);
         txMine.setTypeface(custom_font);
 
-
         TextView txScore = (TextView)findViewById(R.id.Score);
         //txScore.setTypeface(custom_font);
         txScore.setText("$ " + goldCount);
