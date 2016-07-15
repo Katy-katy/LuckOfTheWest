@@ -107,6 +107,7 @@ public class SaloonActivity extends AppCompatActivity {
                                 @Override
                                 public void onClick(View v) {
                                     GameBoardActivity.user_player.setGold((player_gold - wager));
+                                    wage_box.dismiss();
                                     Intent intent = new Intent(SaloonActivity.this,LiarsDiceActivity.class);
                                     startActivity(intent);
                                 }

@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/saloon_wideview">
+    android:background="@drawable/saloon_sideview">
 
 
     <ListView
@@ -61,7 +61,8 @@
         android:layout_below="@+id/liar_button"
         android:layout_alignLeft="@+id/listView"
         android:layout_alignStart="@+id/listView"
-        android:background="@drawable/small_up_arrow"/>
+        android:background="@drawable/small_up_arrow"
+        android:onClick="up_cycle" />
 
     <ImageButton
         style="?android:attr/buttonStyleSmall"

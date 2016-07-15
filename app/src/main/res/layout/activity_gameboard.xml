@@ -12,30 +12,15 @@
         android:background="@null"
         android:height="170dp"
         android:width="130dp"
-        android:layout_marginLeft="112dp"
-        android:layout_marginStart="112dp"
-        android:layout_centerVertical="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-
         android:textSize="15dp"
-        android:gravity="top"
-        android:paddingTop="80dp"
-        android:onClick="startSchool" />
+        android:gravity="top|center_horizontal"
+        android:paddingTop="50dp"
+        android:onClick="startSchool"
+        android:layout_centerVertical="true"
+        android:layout_alignRight="@+id/Day"
+        android:layout_alignEnd="@+id/Day" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Saloon"
-        android:id="@+id/barButton"
-        android:background="@null"
-        android:height="250dp"
-        android:width="110dp"
-        android:layout_marginBottom="40dp"
-        android:layout_alignBottom="@+id/schoolButton"
-        android:layout_toRightOf="@+id/schoolButton"
-        android:layout_toEndOf="@+id/schoolButton"
-        android:onClick="startSaloon" />
+
 
     <Button
         style="?android:attr/buttonStyleSmall"
@@ -46,9 +31,9 @@
         android:background="@null"
         android:height="100dp"
         android:width="70dp"
-        android:layout_below="@+id/schoolButton"
-        android:layout_alignRight="@+id/barButton"
-        android:layout_alignEnd="@+id/barButton" />
+        android:layout_alignBottom="@+id/imageview_animation_downarrow4"
+        android:layout_alignRight="@+id/imageview_animation_downarrow3"
+        android:layout_alignEnd="@+id/imageview_animation_downarrow3" />
 
     <Button
         style="?android:attr/buttonStyleSmall"
@@ -56,16 +41,30 @@
         android:layout_height="wrap_content"
         android:text="BANK"
         android:id="@+id/bank_button"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="40dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="30dp"
         android:height="250dp"
         android:background="@null"
         android:width="70dp"
-        android:onClick="startBank" />
+        android:onClick="startBank"
+        android:layout_below="@+id/Score"
+        android:gravity="top|center_horizontal"
+        android:paddingTop="60dp"
+        android:layout_toLeftOf="@+id/schoolButton"
+        android:layout_toStartOf="@+id/schoolButton" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Saloon"
+        android:id="@+id/barButton"
+        android:background="@null"
+        android:height="250dp"
+        android:width="110dp"
+        android:onClick="startSaloon"
+        android:gravity="center_horizontal"
+        android:paddingTop="60dp"
+        android:layout_alignTop="@+id/imageview_animation_downarrow3"
+        android:layout_alignLeft="@+id/miningButton"
+        android:layout_alignStart="@+id/miningButton" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -92,27 +91,29 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/animation_list_downarrow"
-        android:layout_above="@+id/schoolButton"
-        android:layout_toLeftOf="@+id/Day"
-        android:layout_toStartOf="@+id/Day" />
+        android:layout_alignTop="@+id/imageview_animation_downarrow2"
+        android:layout_alignRight="@+id/schoolButton"
+        android:layout_alignEnd="@+id/schoolButton"
+        android:layout_marginRight="37dp"
+        android:layout_marginEnd="37dp" />
 
     <ImageView
         android:id="@+id/imageview_animation_downarrow2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/animation_list_downarrow_back"
-        android:layout_alignTop="@+id/barButton"
-        android:layout_alignRight="@+id/bank_button"
-        android:layout_alignEnd="@+id/bank_button" />
+        android:layout_alignTop="@+id/bank_button"
+        android:layout_alignLeft="@+id/bank_button"
+        android:layout_alignStart="@+id/bank_button" />
 
     <ImageView
         android:id="@+id/imageview_animation_downarrow3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/animation_list_downarrow_back"
-        android:layout_alignTop="@+id/barButton"
-        android:layout_alignLeft="@+id/miningButton"
-        android:layout_alignStart="@+id/miningButton" />
+        android:layout_below="@+id/Day"
+        android:layout_toRightOf="@+id/imageview_animation_downarrow4"
+        android:layout_toEndOf="@+id/imageview_animation_downarrow4" />
 
     <ImageView
         android:id="@+id/imageview_animation_downarrow4"
@@ -120,10 +121,11 @@
         android:layout_height="wrap_content"
         android:background="@drawable/animation_list_sidearrow"
         android:onClick="startMine"
-        android:layout_alignParentBottom="true"
-        android:layout_alignRight="@+id/miningButton"
-        android:layout_alignEnd="@+id/miningButton"
-        android:layout_marginBottom="39dp" />
+        android:layout_below="@+id/schoolButton"
+        android:layout_toRightOf="@+id/Day"
+        android:layout_toEndOf="@+id/Day"
+        android:layout_marginLeft="84dp"
+        android:layout_marginStart="84dp" />
 
 
 
