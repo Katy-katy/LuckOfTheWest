@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import org.w3c.dom.Text;
@@ -17,9 +18,10 @@ import java.util.Random;
 public class MineActivity extends AppCompatActivity {
 
     final int NUM_MINEBUTTONS = 6;
+    final int BLINK_SPEED = 500;    /* Faster with lower value */
 
     Button startButton;
-    Button[] mineBut;
+    ImageButton[] mineBut;
 
 
     TextView statusText;
@@ -35,13 +37,13 @@ public class MineActivity extends AppCompatActivity {
         setContentView(R.layout.activity_mine);
 
         startButton = (Button)findViewById(R.id.startButton);
-        mineBut = new Button[NUM_MINEBUTTONS];
-        mineBut[0] = (Button)findViewById(R.id.mineButton1);
-        mineBut[1] = (Button)findViewById(R.id.mineButton2);
-        mineBut[2] = (Button)findViewById(R.id.mineButton3);
-        mineBut[3] = (Button)findViewById(R.id.mineButton4);
-        mineBut[4] = (Button)findViewById(R.id.mineButton5);
-        mineBut[5] = (Button)findViewById(R.id.mineButton6);
+        mineBut = new ImageButton[NUM_MINEBUTTONS];
+        mineBut[0] = (ImageButton)findViewById(R.id.mineButton1);
+        mineBut[1] = (ImageButton)findViewById(R.id.mineButton2);
+        mineBut[2] = (ImageButton)findViewById(R.id.mineButton3);
+        mineBut[3] = (ImageButton)findViewById(R.id.mineButton4);
+        mineBut[4] = (ImageButton)findViewById(R.id.mineButton5);
+        mineBut[5] = (ImageButton)findViewById(R.id.mineButton6);
 
         statusText = (TextView)findViewById(R.id.statusText);
         scoreText = (TextView)findViewById(R.id.scoreText);
@@ -54,6 +56,8 @@ public class MineActivity extends AppCompatActivity {
         for (int i=0; i<NUM_MINEBUTTONS; i++) {
             mineBut[i].setOnClickListener(ocl);
         }
+
+        enableMineButtons(false);
     }
 
 
@@ -184,11 +188,11 @@ public class MineActivity extends AppCompatActivity {
         handler.sendMessage(msg);
     }
 
-    private void setButtonColor (int buttonNum, int color) {
+    private void setButtonBackgroundColor (int buttonNum, int color) {
         Message msg = handler.obtainMessage();
         Bundle bundle = new Bundle();
         int[] data = {buttonNum, color};
-        bundle.putIntArray("setButtonColor", data);
+        bundle.putIntArray("setButtonBackgroundColor", data);
         msg.setData(bundle);
         handler.sendMessage(msg);
     }
@@ -207,7 +211,6 @@ public class MineActivity extends AppCompatActivity {
         bundle.putBoolean("enableMineButtons", enabled);
         msg.setData(bundle);
         handler.sendMessage(msg);
-
     }
 
 
@@ -230,8 +233,8 @@ public class MineActivity extends AppCompatActivity {
                 String data = msg.getData().getString("setScoreText");
                 scoreText.setText(data);
             }
-            else if (msg.getData().get("setButtonColor") != null) {
-                int[] data = msg.getData().getIntArray("setButtonColor");
+            else if (msg.getData().get("setButtonBackgroundColor") != null) {
+                int[] data = msg.getData().getIntArray("setButtonBackgroundColor");
                 mineBut[data[0]].setBackgroundColor(data[1]);
             }
             else if (msg.getData().get("enableStartButton") != null) {
@@ -254,11 +257,11 @@ public class MineActivity extends AppCompatActivity {
 
 
     private void blinkButton (int n) {
-        setButtonColor(n, Color.RED);
+        setButtonBackgroundColor(n, Color.RED);
         //mineBut[n].setBackgroundColor(0xdd8d3d);
-        waitForMs(400);
-        setButtonColor(n, Color.WHITE);
-        waitForMs(400);
+        waitForMs(BLINK_SPEED);
+        setButtonBackgroundColor(n, Color.TRANSPARENT);
+        waitForMs(BLINK_SPEED);
         //mineBut[n].setBackgroundColor(0xd7d7d7);
     }
 
