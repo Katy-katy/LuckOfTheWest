@@ -1,5 +1,6 @@
 package com.noahdavidson.luckofthewest;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -19,6 +20,7 @@ public class LiarsDiceActivity extends AppCompatActivity{
 
     private int [] totalDiceHands = new int[6];
     private int totalNumOfDice;
+    private int playersAlive = 5;
 
     private int []player1Dice = new int[]{0,0,0,0,0,0};
     private int player1NumOfDice;
@@ -38,6 +40,8 @@ public class LiarsDiceActivity extends AppCompatActivity{
 
     private static final String TAG = LiarsDiceActivity.class.getSimpleName();
 
+    //PLAYER HAND DIALOG BOX
+
     int[] matches_img = new int[]{R.drawable.one,R.drawable.two,R.drawable.three,R.drawable.four,R.drawable.five,
             R.drawable.six,R.drawable.seven,R.drawable.eight,R.drawable.nine,R.drawable.ten,
             R.drawable.eleven,R.drawable.twelve,R.drawable.thirteen,R.drawable.fourteen,R.drawable.fifteen,
@@ -46,6 +50,7 @@ public class LiarsDiceActivity extends AppCompatActivity{
 
     int[] dice_img = new int[]{R.drawable.dice_one,R.drawable.dice_two,R.drawable.dice_three,R.drawable.dice_four,R.drawable.dice_five,
             R.drawable.dice_six};
+
 
     private int MATCH_BID;
     private int DICE_BID;
@@ -66,6 +71,7 @@ public class LiarsDiceActivity extends AppCompatActivity{
 
         Button call = (Button) findViewById(R.id.call_button);
         Button liar = (Button) findViewById(R.id.liar_button);
+        Button show_dice = (Button) findViewById(R.id.roll_button);
 
         //Set Match and Dice Image
         setMATCH_BID(1);
@@ -83,7 +89,16 @@ public class LiarsDiceActivity extends AppCompatActivity{
         resetHands();
 
         //set total Dice variable
-        //setTotalDiceHands();
+        setTotalDiceHands();
+
+        //Start Player Turns
+        setShowHandButton(show_dice);
+        while(playersAlive > 2){
+
+        }
+
+
+
 
 
     }
@@ -91,6 +106,44 @@ public class LiarsDiceActivity extends AppCompatActivity{
     @Override
     protected void onDestroy() {
         super.onDestroy();
+    }
+
+    public void setShowHandButton(Button show_dice){
+        if (show_dice != null) {
+            show_dice.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //INITIALIZE SHOW HAND DIALOG BOX
+                    final Dialog show_hand_box = new Dialog(LiarsDiceActivity.this);
+                    show_hand_box.setTitle("Dice Hand");
+                    show_hand_box.setContentView(R.layout.show_hand_layout);
+                    show_hand_box.show();
+
+                    //PLAYER HAND VIEW VARIABLES
+                    ImageView dice1 = (ImageView) show_hand_box.findViewById(R.id.dice1);
+                    ImageView dice2 = (ImageView) show_hand_box.findViewById(R.id.dice2);
+                    ImageView dice3 = (ImageView) show_hand_box.findViewById(R.id.dice3);
+                    ImageView dice4 = (ImageView) show_hand_box.findViewById(R.id.dice4);
+                    ImageView dice5 = (ImageView) show_hand_box.findViewById(R.id.dice5);
+                    final ImageView[] player_hand_view = new ImageView[]{dice1,dice2,dice3,dice4,dice5};
+
+                    int dCount = 0;
+                    while (dCount < player1NumOfDice) {
+                        for (int i = 0; i < 6; i++) {
+                            if (player1Dice[i] > 0) {
+                                for (int j = 0; j < player1Dice[i]; j++) {
+                                    if(player_hand_view != null) {
+                                        player_hand_view[dCount].setImageResource(dice_img[i]);
+                                        dCount++;
+                                    }
+                                }
+                            }
+                        }
+
+                    }
+                }
+            });
+        }
     }
 
     public void setButtons(ImageButton match_up, ImageButton match_down,ImageButton dice_up,ImageButton dice_down,
@@ -317,6 +370,8 @@ public class LiarsDiceActivity extends AppCompatActivity{
         for(int i = 0; i < 6; i++){
             totalDiceHands[i] = p1[i] + p2[i] + p3[i] + p4[i] +p5[i];
         }
+
+        Log.d(TAG,"Total: "+totalDiceHands[0]+","+totalDiceHands[1]+","+totalDiceHands[2]+","+totalDiceHands[3]+","+totalDiceHands[4]+","+totalDiceHands[5]);
         return totalDiceHands;
     }
 
@@ -333,43 +388,29 @@ public class LiarsDiceActivity extends AppCompatActivity{
         //Generate all players hands
         if(getPlayer1NumOfDice() > 0){
             genHand(player1Dice,getPlayer1NumOfDice());
-            /*
-            for(int i=0;i<player1Dice.length;i++){
-                Log.d(TAG,""+player1Dice[i]+",");
-            }
-            */
+
+            Log.d(TAG,"P1: "+player1Dice[0]+","+player1Dice[1]+","+player1Dice[2]+","+player1Dice[3]+","+player1Dice[4]+","+player1Dice[5]);
+
         }
         if(getPlayer2NumOfDice() > 0){
             genHand(player2Dice,getPlayer2NumOfDice());
-            /*
-            for(int i=0;i<player2Dice.length;i++){
-                Log.d(TAG,""+player2Dice[i]+",");
-            }
-            */
+
+            Log.d(TAG,"P2: "+player2Dice[0]+","+player2Dice[1]+","+player2Dice[2]+","+player2Dice[3]+","+player2Dice[4]+","+player2Dice[5]);
         }
         if(getPlayer3NumOfDice() > 0){
             genHand(player3Dice,getPlayer3NumOfDice());
-            /*
-            for(int i=0;i<player3Dice.length;i++){
-                Log.d(TAG,""+player3Dice[i]+",");
-            }
-            */
+
+            Log.d(TAG,"P3: "+player3Dice[0]+","+player3Dice[1]+","+player3Dice[2]+","+player3Dice[3]+","+player3Dice[4]+","+player3Dice[5]);
         }
         if(getPlayer4NumOfDice() > 0){
             genHand(player4Dice,getPlayer4NumOfDice());
-            /*
-            for(int i=0;i<player4Dice.length;i++){
-                Log.d(TAG,""+player4Dice[i]+",");
-            }
-            */
+
+            Log.d(TAG,"P4: "+player4Dice[0]+","+player4Dice[1]+","+player4Dice[2]+","+player4Dice[3]+","+player4Dice[4]+","+player4Dice[5]);
         }
         if(getPlayer5NumOfDice() > 0){
             genHand(player5Dice,getPlayer5NumOfDice());
-            /*
-            for(int i=0;i<player5Dice.length;i++){
-                Log.d(TAG,""+player5Dice[i]+",");
-            }
-            */
+
+            Log.d(TAG,"P5: "+player5Dice[0]+","+player5Dice[1]+","+player5Dice[2]+","+player5Dice[3]+","+player5Dice[4]+","+player5Dice[5]);
         }
     }
 
