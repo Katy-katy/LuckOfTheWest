@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/highnoon">
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/shoot_out"
+        android:id="@+id/title_text"
+        android:textColor="@android:color/black"
+        android:layout_marginTop="10dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/draw"
+        android:id="@+id/draw_button"
+        android:layout_below="@+id/directions_text"
+        android:layout_centerHorizontal="true"
+        android:onClick="executeGame" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/press_to_start"
+        android:id="@+id/directions_text"
+        android:textColor="@android:color/black"
+        android:layout_below="@+id/title_text"
+        android:layout_centerHorizontal="true" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/draw_button"
+        android:showDividers="middle|beginning">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.33">
+
+            <ImageButton
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/cell_borders"
+                android:src="@drawable/bullet_hole_blank"
+                android:id="@+id/shotButton0"
+                android:layout_weight="0.33"
+                android:onClick="onClickButton0" />
+
+            <ImageButton
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/cell_borders"
+                android:src="@drawable/bullet_hole_blank"
+                android:id="@+id/shotButton1"
+                android:layout_weight="0.33"
+                android:onClick="onClickButton1" />
+
+            <ImageButton
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/cell_borders"
+                android:src="@drawable/bullet_hole_blank"
+                android:id="@+id/shotButton2"
+                android:layout_weight="0.33"
+                android:onClick="onClickButton2" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:weightSum="1"
+            android:layout_weight="0.33">
+
+            <ImageButton
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/cell_borders"
+                android:src="@drawable/bullet_hole_blank"
+                android:id="@+id/shotButton3"
+                android:layout_weight="0.33"
+                android:onClick="onClickButton3" />
+
+            <ImageButton
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/cell_borders"
+                android:src="@drawable/bullet_hole_blank"
+                android:id="@+id/shotButton4"
+                android:layout_weight="0.33"
+                android:onClick="onClickButton4" />
+
+            <ImageButton
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/cell_borders"
+                android:src="@drawable/bullet_hole_blank"
+                android:id="@+id/shotButton5"
+                android:layout_weight="0.33"
+                android:onClick="onClickButton5" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.33">
+
+            <ImageButton
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/cell_borders"
+                android:src="@drawable/bullet_hole_blank"
+                android:id="@+id/shotButton6"
+                android:layout_weight="0.33"
+                android:onClick="onClickButton6" />
+
+            <ImageButton
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/cell_borders"
+                android:src="@drawable/bullet_hole_blank"
+                android:id="@+id/shotButton7"
+                android:layout_weight="0.33"
+                android:onClick="onClickButton7" />
+
+            <ImageButton
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/cell_borders"
+                android:src="@drawable/bullet_hole_blank"
+                android:id="@+id/shotButton8"
+                android:layout_weight="0.33"
+                android:onClick="onClickButton8" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>
