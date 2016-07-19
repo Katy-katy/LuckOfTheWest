@@ -2,6 +2,7 @@ package com.noahdavidson.luckofthewest;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -49,7 +50,7 @@ public class ShootOutActivity extends AppCompatActivity {
         draw_button = (Button) findViewById(R.id.draw_button);
         draw_button.setEnabled(true);
     }
-    protected void executeGame() {
+    public void executeGame(View view) {
         //Direct the player
         directions = (TextView) findViewById(R.id.directions_text);
         directions.setText(R.string.shoot_out_directions);
@@ -124,47 +125,47 @@ public class ShootOutActivity extends AppCompatActivity {
         return false;
     }
     //OnClick functions for buttons
-    public void onClickButton0 () {
+    public void onClickButton0 (View view) {
         board_state[0] = TAKEN_SPACE;
         board_buttons[0].setEnabled(false);
         player_turn++;
     }
-    public void onClickButton1 () {
+    public void onClickButton1 (View view) {
         board_state[1] = TAKEN_SPACE;
         board_buttons[1].setEnabled(false);
         player_turn++;
     }
-    public void onClickButton2 () {
+    public void onClickButton2 (View view) {
         board_state[2] = TAKEN_SPACE;
         board_buttons[2].setEnabled(false);
         player_turn++;
     }
-    public void onClickButton3 () {
+    public void onClickButton3 (View view) {
         board_state[3] = TAKEN_SPACE;
         board_buttons[3].setEnabled(false);
         player_turn++;
     }
-    public void onClickButton4 () {
+    public void onClickButton4 (View view) {
         board_state[4] = TAKEN_SPACE;
         board_buttons[4].setEnabled(false);
         player_turn++;
     }
-    public void onClickButton5 () {
+    public void onClickButton5 (View view) {
         board_state[5] = TAKEN_SPACE;
         board_buttons[5].setEnabled(false);
         player_turn++;
     }
-    public void onClickButton6 () {
+    public void onClickButton6 (View view) {
         board_state[6] = TAKEN_SPACE;
         board_buttons[6].setEnabled(false);
         player_turn++;
     }
-    public void onClickButton7 () {
+    public void onClickButton7 (View view) {
         board_state[7] = TAKEN_SPACE;
         board_buttons[7].setEnabled(false);
         player_turn++;
     }
-    public void onClickButton8 () {
+    public void onClickButton8 (View view) {
         board_state[8] = TAKEN_SPACE;
         board_buttons[8].setEnabled(false);
         player_turn++;
