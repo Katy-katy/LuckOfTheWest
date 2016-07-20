@@ -49,6 +49,7 @@ public class SaloonActivity extends AppCompatActivity {
                                 Toast.makeText(context, text, duration).show();
                             } else {
 
+
                                 final Dialog wage_box = new Dialog(SaloonActivity.this);
                                 wage_box.setTitle("Wager");
                                 wage_box.setContentView(R.layout.wage_dialog_layout);
@@ -109,6 +110,7 @@ public class SaloonActivity extends AppCompatActivity {
                                     @Override
                                     public void onClick(View v) {
                                         GameBoardActivity.user_player.setGold((player_gold - wager));
+                                        wage_box.dismiss();
                                         Intent intent = new Intent(SaloonActivity.this, LiarsDiceActivity.class);
                                         startActivity(intent);
                                     }
