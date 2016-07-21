@@ -7,7 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:background="@drawable/mainmenubackground"
+    android:background="@drawable/wildwestmainmenu_4"
     tools:context="com.noahdavidson.luckofthewest.MainActivity">
 
     <TextView
@@ -16,12 +16,12 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="The Luck of the West"
         android:id="@+id/menuTitle"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="67dp"
+        android:layout_marginTop="51dp"
         android:textColor="#cfb910"
         android:height="80dp"
-        android:width="250dp"/>
+        android:width="400dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
 
     <Button
         android:layout_width="wrap_content"
@@ -32,9 +32,10 @@
         android:onClick="startGame"
         android:height="120dp"
         android:width="140dp"
+        android:paddingTop="30dp"
         android:gravity="center|top"
         android:textColor="#ffffff"
         android:layout_below="@+id/menuTitle"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="98dp" />
+        android:layout_centerHorizontal="true" />
+
 </RelativeLayout>

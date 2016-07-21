@@ -9,23 +9,22 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import com.noahdavidson.luckofthewest.player;
 
 /**
  * Created by noahdavidson on 7/6/16.
  */
 public class GameBoardActivity extends AppCompatActivity {
 
-    int score = 100;
-    int day = 1;
+    public static player user_player = new player();
+    int goldCount = user_player.getGold();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gameboard);
-
         //SET ARROW ANIM
         startAnim();
-
         //SET FONT TYPE
         setFonts();
     }
@@ -39,7 +38,7 @@ public class GameBoardActivity extends AppCompatActivity {
 
 
     public void startBank(View view) {
-        Intent intent = new Intent(this, BankActivity.class);
+        Intent intent = new Intent(this, ShootOutActivity.class);
         startActivity(intent);
     }
 
@@ -84,14 +83,14 @@ public class GameBoardActivity extends AppCompatActivity {
         Button txMine = (Button)findViewById(R.id.miningButton);
         txMine.setTypeface(custom_font);
 
-
         TextView txScore = (TextView)findViewById(R.id.Score);
-        txScore.setTypeface(custom_font);
-        txScore.setText("$ " + String.valueOf(score));
+        //txScore.setTypeface(custom_font);
+        txScore.setText("$ " + goldCount);
 
         TextView txDay = (TextView)findViewById(R.id.Day);
-        txDay.setTypeface(custom_font);
-        txDay.setText("Day " + String.valueOf(day));
+        //txDay.setTypeface(custom_font);
+        //txDay.setText("Day" + String.valueOf(txDay));
+        txDay.setText("Day" );
     }
 
 }
