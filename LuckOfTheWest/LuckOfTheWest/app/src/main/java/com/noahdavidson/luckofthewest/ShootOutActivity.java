@@ -1,8 +1,9 @@
 package com.noahdavidson.luckofthewest;
 
+import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
+//import android.os.Handler;
+//import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -15,6 +16,9 @@ import java.util.Random;
  * Created by USER on 7/18/2016.
  */
 public class ShootOutActivity extends AppCompatActivity {
+    //Media player for sounds
+    private MediaPlayer button_sounds[];
+    private MediaPlayer background_sound;
     //Text variable
     private TextView directions;
     //Board variables
@@ -33,6 +37,21 @@ public class ShootOutActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shootout);
+        //Create number generator
+        rand_num = new Random();
+        //Create sound containers
+        background_sound = MediaPlayer.create(ShootOutActivity.this, R.raw.whistling_credit_qubodup);
+        background_sound.start();
+        button_sounds = new MediaPlayer[BOARD_SIZE];
+        button_sounds[0] = MediaPlayer.create(ShootOutActivity.this, R.raw.shot_1_credit_Rock_Savage);
+        button_sounds[1] = MediaPlayer.create(ShootOutActivity.this, R.raw.shot_2_credit_Rock_Savage);
+        button_sounds[2] = MediaPlayer.create(ShootOutActivity.this, R.raw.shot_3_credit_Rock_Savage);
+        button_sounds[3] = MediaPlayer.create(ShootOutActivity.this, R.raw.shot_2_credit_Rock_Savage);
+        button_sounds[4] = MediaPlayer.create(ShootOutActivity.this, R.raw.shot_1_credit_Rock_Savage);
+        button_sounds[5] = MediaPlayer.create(ShootOutActivity.this, R.raw.shot_3_credit_Rock_Savage);
+        button_sounds[6] = MediaPlayer.create(ShootOutActivity.this, R.raw.shot_3_credit_Rock_Savage);
+        button_sounds[7] = MediaPlayer.create(ShootOutActivity.this, R.raw.shot_2_credit_Rock_Savage);
+        button_sounds[8] = MediaPlayer.create(ShootOutActivity.this, R.raw.shot_1_credit_Rock_Savage);
         //Create board
         board_state = new char[BOARD_SIZE];
         board_buttons = new ImageButton[BOARD_SIZE];
@@ -63,17 +82,14 @@ public class ShootOutActivity extends AppCompatActivity {
         for (int i = 0; i < BOARD_SIZE; i++) {
             board_buttons[i].setEnabled(true);
         }
-        //Create number generator
-        rand_num = new Random();
         Runnable runnable = new Runnable() {
-
             public void run() {
                 do {
                     if (player_turn % 2 == 0) {
-
                         player_turn = 0;
                     }
                     if (player_turn == 0) {
+                        waitForMs(2000);
                         aiMove();
                     }
                     drawBoard();
@@ -81,10 +97,8 @@ public class ShootOutActivity extends AppCompatActivity {
                 resolve();
             }
         };
-
         Thread runGame = new Thread (runnable);
         runGame.start();
-
     }
 
     //End game
@@ -185,9 +199,17 @@ public class ShootOutActivity extends AppCompatActivity {
         player_turn++;
     }
 
+    //Pause game for "ms" milliseconds
+    private void waitForMs (int ms) {
+        try {
+            Thread.sleep(ms);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
     //Set src image values for buttons
     protected void drawBoard() {
-
         if (board_state[0] == TAKEN_SPACE) {
             setButtonImage(0, R.drawable.bullet_hole_0);
             setButtonEnable(0, false);
@@ -227,17 +249,33 @@ public class ShootOutActivity extends AppCompatActivity {
     }
 
     //
-    private void setButtonImage(int buttonNum, int image) {
+    private void setButtonImage(final int buttonNum, final int image) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                board_buttons[buttonNum].setImageResource(image);
+                button_sounds[buttonNum].start();
+            }
+        });
+        /*
         Message msg = handler.obtainMessage();
         Bundle bundle = new Bundle();
         int[] data = {buttonNum, image};
         bundle.putIntArray("setButtonImage", data);
         msg.setData(bundle);
         handler.sendMessage(msg);
+        */
     }
 
-    //
-    private void setButtonEnable(int buttonNum, boolean enable) {
+    //Allows thread to enable/disable buttons
+    private void setButtonEnable(final int buttonNum, final boolean enable) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                board_buttons[buttonNum].setEnabled(enable);
+            }
+        });
+        /*
         Message msg = handler.obtainMessage();
         Bundle bundle = new Bundle();
         int boolNum;
@@ -250,25 +288,34 @@ public class ShootOutActivity extends AppCompatActivity {
         bundle.putIntArray("setButtonEnable", data);
         msg.setData(bundle);
         handler.sendMessage(msg);
+        */
     }
 
-    //
-    private void setDirectionsText(int text) {
+    //Allows thread to change text
+    private void setDirectionsText(final int text) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                directions.setText(text);
+            }
+        });
+        /*
         Message msg = handler.obtainMessage();
         Bundle bundle = new Bundle();
         int data = text;
         bundle.putInt("setDirectionsText", data);
         msg.setData(bundle);
         handler.sendMessage(msg);
-
+        */
     }
-
+    /*
     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             if (msg.getData().get("setButtonImage") != null) {
                 int[] data = msg.getData().getIntArray("setButtonImage");
                 board_buttons[data[0]].setImageResource(data[1]);
+                button_sounds[data[0]].start();
             } else if (msg.getData().get("setButtonEnable") != null) {
                 int[] data = msg.getData().getIntArray("setButtonEnable");
                 board_buttons[data[0]].setEnabled(!(data[1] == 0));
@@ -278,4 +325,5 @@ public class ShootOutActivity extends AppCompatActivity {
             }
         }
     };
+    */
 }
