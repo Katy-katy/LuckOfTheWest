@@ -16,6 +16,10 @@ public class player {
         this.gold = gold;
     }
 
+    public void addGold(int gold) {
+        this.gold += gold;
+    }
+
     public int getCount() {
         return count;
     }

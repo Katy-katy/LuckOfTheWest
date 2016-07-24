@@ -139,35 +139,8 @@ public class SchoolActivity extends AppCompatActivity {
                                 customHandler.removeCallbacks(updateTimerThread);
 
                                 //show pop-up view with score and options
-                                LayoutInflater layoutInflater = (LayoutInflater)getBaseContext()
-                                        .getSystemService(LAYOUT_INFLATER_SERVICE);
-                                View popupView = layoutInflater.inflate(R.layout.popup, null);
-                                final PopupWindow popupWindow = new PopupWindow(
-                                        popupView,
-                                        ActionBar.LayoutParams.WRAP_CONTENT,
-                                        ActionBar.LayoutParams.WRAP_CONTENT);
-                                Button playAgain = (Button)popupView.findViewById(R.id.playAgain);
-                                Button goBack = (Button)popupView.findViewById(R.id.goBack);
-                                TextView sc = (TextView)popupView.findViewById(R.id.sc);
-                                sc.setText("$"+ updatedTime);
-                                sc.setTextSize(28);
+                                showPopUp();
 
-                                goBack.setOnClickListener(new Button.OnClickListener(){
-                                    @Override
-                                    public void onClick(View v) {
-                                        Intent intent = new Intent(getApplicationContext(),GameBoardActivity.class);
-                                        startActivity(intent);
-
-                                    }});
-
-                                playAgain.setOnClickListener(new Button.OnClickListener(){
-
-                                    @Override
-                                    public void onClick(View v) {
-                                        Intent intent = new Intent(SchoolActivity.this,SchoolActivity.class);
-                                        startActivity(intent);
-                                    }});
-                                popupWindow.showAtLocation(button5, Gravity.CENTER, 0, 0);
                             }
                         }
                         else {
@@ -211,6 +184,40 @@ public class SchoolActivity extends AppCompatActivity {
         }
         return res;
     }
+
+    private void showPopUp() {
+        LayoutInflater layoutInflater = (LayoutInflater)getBaseContext()
+                .getSystemService(LAYOUT_INFLATER_SERVICE);
+        View popupView = layoutInflater.inflate(R.layout.popup, null);
+        final PopupWindow popupWindow = new PopupWindow(
+                popupView,
+                ActionBar.LayoutParams.WRAP_CONTENT,
+                ActionBar.LayoutParams.WRAP_CONTENT);
+        //Button playAgain = (Button)popupView.findViewById(R.id.playAgain);
+        Button goBack = (Button)popupView.findViewById(R.id.goBack);
+        TextView sc = (TextView)popupView.findViewById(R.id.sc);
+        sc.setText("$"+ updatedTime);
+        sc.setTextSize(28);
+        GameBoardActivity.user_player.addGold( (int)updatedTime);
+
+        goBack.setOnClickListener(new Button.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(),GameBoardActivity.class);
+                startActivity(intent);
+
+            }});
+         /*
+        playAgain.setOnClickListener(new Button.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(SchoolActivity.this,SchoolActivity.class);
+                startActivity(intent);
+            }}); */
+        popupWindow.showAtLocation(button5, Gravity.CENTER, 0, 0);
+    }
+
 
     private Runnable updateTimerThread = new Runnable() {
         public void run() {

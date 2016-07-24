@@ -33,7 +33,8 @@
         android:width="100dp"
         android:layout_alignBottom="@+id/imageview_animation_downarrow4"
         android:layout_alignRight="@+id/imageview_animation_downarrow3"
-        android:layout_alignEnd="@+id/imageview_animation_downarrow3" />
+        android:layout_alignEnd="@+id/imageview_animation_downarrow3"
+        android:onClick="startMine" />
 
     <Button
         style="?android:attr/buttonStyleSmall"
