@@ -1,6 +1,156 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#fed98e"
 
-</LinearLayout>
+    android:weightSum="1">
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Welcome to School!"
+        android:id="@+id/welcomToSchool"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/welcomToSchool"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/playArea">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Score: "
+                android:id="@+id/time" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/timerVal"
+                android:id="@+id/timer"
+                android:layout_column="1" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal">
+
+            <Button
+                android:layout_width="110dp"
+                android:layout_height="100dp"
+                android:text="0"
+                android:id="@+id/button1"
+                android:clickable="true"
+                android:onClick="buttomPressed" />
+
+            <Button
+                android:layout_width="110dp"
+                android:layout_height="100dp"
+                android:text="1"
+                android:id="@+id/button2"
+                android:clickable="true" />
+
+            <Button
+                android:layout_width="110dp"
+                android:layout_height="100dp"
+                android:text="2"
+                android:id="@+id/button3"
+                android:clickable="true" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal">
+
+            <Button
+                android:layout_width="110dp"
+                android:layout_height="100dp"
+                android:text="3"
+                android:id="@+id/button4"
+                android:clickable="true" />
+
+            <Button
+                android:layout_width="110dp"
+                android:layout_height="100dp"
+                android:text="4"
+                android:id="@+id/button5"
+                android:clickable="true" />
+
+            <Button
+                android:layout_width="110dp"
+                android:layout_height="100dp"
+                android:text="5"
+                android:id="@+id/button6"
+                android:clickable="true" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal">
+
+            <Button
+                android:layout_width="110dp"
+                android:layout_height="100dp"
+                android:text="6"
+                android:id="@+id/button7"
+                android:clickable="true" />
+
+            <Button
+                android:layout_width="110dp"
+                android:layout_height="100dp"
+                android:text="7"
+                android:id="@+id/button8"
+                android:clickable="true" />
+
+            <Button
+                android:layout_width="110dp"
+                android:layout_height="100dp"
+                android:text="8"
+                android:id="@+id/button9"
+                android:clickable="true" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal">
+
+            <Button
+                android:layout_width="110dp"
+                android:layout_height="100dp"
+                android:text="9"
+                android:id="@+id/button10"
+                android:clickable="true" />
+
+            <Button
+                android:layout_width="110dp"
+                android:layout_height="100dp"
+                android:text="10"
+                android:id="@+id/button11"
+                android:clickable="true" />
+
+            <Button
+                android:layout_width="110dp"
+                android:layout_height="100dp"
+                android:text="11"
+                android:id="@+id/button12"
+                android:clickable="true" />
+        </TableRow>
+    </TableLayout>
+</RelativeLayout>
