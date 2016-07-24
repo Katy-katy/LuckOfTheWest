@@ -29,11 +29,6 @@
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
-                <Button
-                    android:id="@+id/playAgain"
-                    android:layout_width="110dp"
-                    android:layout_height="50dp"
-                    android:text="Play Again" />
 
                 <Button
                     android:id="@+id/goBack"

@@ -1,19 +1,25 @@
 package com.noahdavidson.luckofthewest;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.concurrent.RunnableFuture;
 
 public class MineActivity extends AppCompatActivity {
 
@@ -160,7 +166,7 @@ public class MineActivity extends AppCompatActivity {
                     }
                     waitForMs(300);
                 }
-
+                showPopUp(score);
             }
         };
 
@@ -263,6 +269,43 @@ public class MineActivity extends AppCompatActivity {
         setButtonBackgroundColor(n, Color.TRANSPARENT);
         waitForMs(BLINK_SPEED);
         //mineBut[n].setBackgroundColor(0xd7d7d7);
+    }
+
+    private void showPopUp(int score) {
+        LayoutInflater layoutInflater = (LayoutInflater)getBaseContext()
+                .getSystemService(LAYOUT_INFLATER_SERVICE);
+        View popupView = layoutInflater.inflate(R.layout.popup, null);
+        final PopupWindow popupWindow = new PopupWindow(
+                popupView,
+                ActionBar.LayoutParams.WRAP_CONTENT,
+                ActionBar.LayoutParams.WRAP_CONTENT);
+        Button goBack = (Button)popupView.findViewById(R.id.goBack);
+        final TextView sc = (TextView)popupView.findViewById(R.id.sc);
+
+        final int score_ = score;
+
+        runOnUiThread(new Runnable (){
+            public void run() {
+                sc.setText("$"+ score_);
+                sc.setTextSize(28);
+            }
+        });
+
+        GameBoardActivity.user_player.addGold(score);
+
+        goBack.setOnClickListener(new Button.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(),GameBoardActivity.class);
+                startActivity(intent);
+                finish();
+
+            }});
+        runOnUiThread(new Runnable() {
+            public void run() {
+                popupWindow.showAtLocation(statusText, Gravity.CENTER, 0, 0);
+            }
+        });
     }
 
 }

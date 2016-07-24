@@ -83,14 +83,19 @@ public class GameBoardActivity extends AppCompatActivity {
         Button txMine = (Button)findViewById(R.id.miningButton);
         txMine.setTypeface(custom_font);
 
-        TextView txScore = (TextView)findViewById(R.id.Score);
-        //txScore.setTypeface(custom_font);
-        txScore.setText("$ " + goldCount);
+        setTextScore();
 
         TextView txDay = (TextView)findViewById(R.id.Day);
         //txDay.setTypeface(custom_font);
         //txDay.setText("Day" + String.valueOf(txDay));
         txDay.setText("Day" );
     }
+
+    public void setTextScore () {
+        TextView txScore = (TextView)findViewById(R.id.Score);
+        //txScore.setTypeface(custom_font);
+        txScore.setText("$ " + user_player.getGold());
+    }
+
 
 }
