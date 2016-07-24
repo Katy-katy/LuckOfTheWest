@@ -7,4 +7,5 @@
     <string name="lose">You lose\.\.\.</string>
     <string name="exit">Exit</string>
     <string name="shoot_out_directions">WARNING: Avoid 3\-in\-a\-row</string>
+    <string name="timerVal">00:00:00</string>
 </resources>
