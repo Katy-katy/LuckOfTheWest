@@ -61,16 +61,24 @@ public class ShootOutActivity extends AppCompatActivity {
         }
         //Create number generator
         rand_num = new Random();
-        do {
-            if (player_turn%2 == 0) {
-                player_turn = 0;
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                do {
+                    if (player_turn%2 == 0) {
+                        player_turn = 0;
+                    }
+                    if (player_turn == 0) {
+                        aiMove();
+                    }
+                    drawBoard();
+                } while (!checkForLoser());
+                resolve();
             }
-            if (player_turn == 0) {
-                aiMove();
-            }
-            drawBoard();
-        } while (!checkForLoser());
-        resolve();
+        };
+
+        Thread myThread = new Thread (runnable);
+        myThread.start();
     }
     //End game
     protected void resolve() {
@@ -172,32 +180,33 @@ public class ShootOutActivity extends AppCompatActivity {
     }
     //Set src image values for buttons
     protected void drawBoard() {
-        if (board_state[0] == TAKEN_SPACE) {
-            board_buttons[0].setImageResource(R.drawable.bullet_hole_0);
-        }
-        if (board_state[1] == TAKEN_SPACE) {
-            board_buttons[1].setImageResource(R.drawable.bullet_hole_1);
-        }
-        if (board_state[2] == TAKEN_SPACE) {
-            board_buttons[2].setImageResource(R.drawable.bullet_hole_2);
-        }
-        if (board_state[3] == TAKEN_SPACE) {
-            board_buttons[3].setImageResource(R.drawable.bullet_hole_3);
-        }
-        if (board_state[4] == TAKEN_SPACE) {
-            board_buttons[4].setImageResource(R.drawable.bullet_hole_4);
-        }
-        if (board_state[5] == TAKEN_SPACE) {
-            board_buttons[5].setImageResource(R.drawable.bullet_hole_5);
-        }
-        if (board_state[6] == TAKEN_SPACE) {
-            board_buttons[6].setImageResource(R.drawable.bullet_hole_6);
-        }
-        if (board_state[7] == TAKEN_SPACE) {
-            board_buttons[7].setImageResource(R.drawable.bullet_hole_7);
-        }
-        if (board_state[8] == TAKEN_SPACE) {
-            board_buttons[8].setImageResource(R.drawable.bullet_hole_8);
-        }
+
+                if (board_state[0] == TAKEN_SPACE) {
+                    board_buttons[0].setImageResource(R.drawable.bullet_hole_0);
+                }
+                if (board_state[1] == TAKEN_SPACE) {
+                    board_buttons[1].setImageResource(R.drawable.bullet_hole_1);
+                }
+                if (board_state[2] == TAKEN_SPACE) {
+                    board_buttons[2].setImageResource(R.drawable.bullet_hole_2);
+                }
+                if (board_state[3] == TAKEN_SPACE) {
+                    board_buttons[3].setImageResource(R.drawable.bullet_hole_3);
+                }
+                if (board_state[4] == TAKEN_SPACE) {
+                    board_buttons[4].setImageResource(R.drawable.bullet_hole_4);
+                }
+                if (board_state[5] == TAKEN_SPACE) {
+                    board_buttons[5].setImageResource(R.drawable.bullet_hole_5);
+                }
+                if (board_state[6] == TAKEN_SPACE) {
+                    board_buttons[6].setImageResource(R.drawable.bullet_hole_6);
+                }
+                if (board_state[7] == TAKEN_SPACE) {
+                    board_buttons[7].setImageResource(R.drawable.bullet_hole_7);
+                }
+                if (board_state[8] == TAKEN_SPACE) {
+                    board_buttons[8].setImageResource(R.drawable.bullet_hole_8);
+                }
     }
 }

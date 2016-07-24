@@ -13,12 +13,25 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 /**
  * Created by noahdavidson on 7/12/16.
  */
 
 
 public class LiarsDiceActivity extends AppCompatActivity{
+
+    private static final String TAG = LiarsDiceActivity.class.getSimpleName();
+
+    int[] matches_img = new int[]{R.drawable.one,R.drawable.two,R.drawable.three,R.drawable.four,R.drawable.five,
+            R.drawable.six,R.drawable.seven,R.drawable.eight,R.drawable.nine,R.drawable.ten,
+            R.drawable.eleven,R.drawable.twelve,R.drawable.thirteen,R.drawable.fourteen,R.drawable.fifteen,
+            R.drawable.sixteen,R.drawable.seventeen,R.drawable.eightteen,R.drawable.nineteen,R.drawable.twenty,
+            R.drawable.twentyone,R.drawable.twentytwo,R.drawable.twentythree,R.drawable.twentyfour,R.drawable.twentyfive};
+
+    int[] dice_img = new int[]{R.drawable.dice_one,R.drawable.dice_two,R.drawable.dice_three,R.drawable.dice_four,R.drawable.dice_five,
+            R.drawable.dice_six};
 
     private int [] totalDiceHands = new int[6];
     private int [] totalDiceHands_with_wilds = new int[6];
@@ -41,19 +54,17 @@ public class LiarsDiceActivity extends AppCompatActivity{
     private int player = 0;
     private int lastPlayer = -1;
 
-    private static final String TAG = LiarsDiceActivity.class.getSimpleName();
+    ImageView[] AI_SHOW_CALL;
 
-    //PLAYER HAND DIALOG BOX
+    ImageButton[] PLAYER_UI_SET_BID;
 
-    int[] matches_img = new int[]{R.drawable.one,R.drawable.two,R.drawable.three,R.drawable.four,R.drawable.five,
-            R.drawable.six,R.drawable.seven,R.drawable.eight,R.drawable.nine,R.drawable.ten,
-            R.drawable.eleven,R.drawable.twelve,R.drawable.thirteen,R.drawable.fourteen,R.drawable.fifteen,
-            R.drawable.sixteen,R.drawable.seventeen,R.drawable.eightteen,R.drawable.nineteen,R.drawable.twenty,
-            R.drawable.twentyone,R.drawable.twentytwo,R.drawable.twentythree,R.drawable.twentyfour,R.drawable.twentyfive};
+    Button[] PLAYER_UI_MAIN_ACTIONS;
 
-    int[] dice_img = new int[]{R.drawable.dice_one,R.drawable.dice_two,R.drawable.dice_three,R.drawable.dice_four,R.drawable.dice_five,
-            R.drawable.dice_six};
+    ImageView[] PLAYER_SHOW_CALL;
 
+    ListView[] PLAYER_VIEW;
+
+    ArrayList<Integer> inputQueue;
 
     private int MATCH_BID;
     private int DICE_BID;
@@ -64,39 +75,49 @@ public class LiarsDiceActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_liars_dice);
 
-        final ImageView match_view = (ImageView) findViewById(R.id.numbers);
-        final ImageView dice_view = (ImageView) findViewById(R.id.dice);
+        AI_SHOW_CALL = new ImageView[8];
+        AI_SHOW_CALL[0] = (ImageView) findViewById(R.id.P2Match);
+        AI_SHOW_CALL[1] = (ImageView) findViewById(R.id.P2Dice);
+        AI_SHOW_CALL[2] = (ImageView) findViewById(R.id.P3Match);
+        AI_SHOW_CALL[3] = (ImageView) findViewById(R.id.P3Dice);
+        AI_SHOW_CALL[4] = (ImageView) findViewById(R.id.P4Match);
+        AI_SHOW_CALL[5] = (ImageView) findViewById(R.id.P4Dice);
+        AI_SHOW_CALL[6] = (ImageView) findViewById(R.id.P5Match);
+        AI_SHOW_CALL[7] = (ImageView) findViewById(R.id.P5Dice);
 
-        final ImageView P2M = (ImageView) findViewById(R.id.P2Match);
-        final ImageView P2D = (ImageView) findViewById(R.id.P2Dice);
-        final ImageView P3M = (ImageView) findViewById(R.id.P3Match);
-        final ImageView P3D = (ImageView) findViewById(R.id.P3Dice);
-        final ImageView P4M = (ImageView) findViewById(R.id.P4Match);
-        final ImageView P4D = (ImageView) findViewById(R.id.P4Dice);
-        final ImageView P5M = (ImageView) findViewById(R.id.P5Match);
-        final ImageView P5D = (ImageView) findViewById(R.id.P5Dice);
 
-        final ImageButton match_up = (ImageButton) findViewById(R.id.match_up);
-        final ImageButton match_down = (ImageButton) findViewById(R.id.match_down);
-        final ImageButton dice_up = (ImageButton) findViewById(R.id.dice_up);
-        final ImageButton dice_down = (ImageButton) findViewById(R.id.dice_down);
+        PLAYER_UI_SET_BID = new ImageButton[4];
+        PLAYER_UI_SET_BID[0] = (ImageButton) findViewById(R.id.match_up);
+        PLAYER_UI_SET_BID[1] = (ImageButton) findViewById(R.id.match_down);
+        PLAYER_UI_SET_BID[2] = (ImageButton) findViewById(R.id.dice_up);
+        PLAYER_UI_SET_BID[3] = (ImageButton) findViewById(R.id.dice_down);
 
-        final Button call = (Button) findViewById(R.id.call_button);
-        final Button liar = (Button) findViewById(R.id.liar_button);
-        final Button show_dice = (Button) findViewById(R.id.roll_button);
+        PLAYER_UI_MAIN_ACTIONS = new Button[3];
+        PLAYER_UI_MAIN_ACTIONS[0] = (Button) findViewById(R.id.call_button);
+        PLAYER_UI_MAIN_ACTIONS[1] = (Button) findViewById(R.id.liar_button);
+        PLAYER_UI_MAIN_ACTIONS[2] = (Button) findViewById(R.id.show_dice_button);
 
-        final ListView playerUI = (ListView) findViewById(R.id.listView);
+        PLAYER_SHOW_CALL = new ImageView[2];
+        PLAYER_SHOW_CALL[0] = (ImageView) findViewById(R.id.numbers);
+        PLAYER_SHOW_CALL[1] = (ImageView) findViewById(R.id.dice);
 
-        //Set Match and Dice Image
+        PLAYER_VIEW = new ListView[1];
+        PLAYER_VIEW[0] = (ListView) findViewById(R.id.listView);
+
+        inputQueue = new ArrayList<Integer>();
+
+        //Set button vals to 1
         setMATCH_BID(1);
         setDICE_BID(1);
-        setNumMatches(match_view, 0);
-        setDiceBid(dice_view, 0);
+        //Set Match and Dice Image
+        setNumMatches(PLAYER_SHOW_CALL[0], 0);
+        setDiceBid(PLAYER_SHOW_CALL[1], 0);
+
+        //set player to USER
         setPlayer(0);
 
-
         //SET ALL BUTTONS FOR LIARS DICE
-        setButtons(match_up,match_down,dice_up,dice_down,call,liar,match_view, dice_view, show_dice,playerUI);
+        setButtons();
 
         //Set all players w/ 5 Dice
         resetNumPlayersDice();
@@ -104,22 +125,11 @@ public class LiarsDiceActivity extends AppCompatActivity{
         //Generate all player hands
         resetHands();
 
-        //set total Dice variable
+        //set global total Dice - all player's hands
         setTotalDiceHands();
 
-        /*
-        //Start Turns
-        while(winner != true && loser != true){
-            turn(player,lastPlayer,lastCall,lastDice,totalDiceHands_with_wilds,totalNumOfDice,allPlayersDice,allPlayersNumDice,liarCalled,
-                    match_up, match_down,dice_up,dice_down,call,liar,match_view, dice_view, show_dice, playerUI,P2M,P2D,P3M,P3D,P4M,P4D,P5M,P5D);
-
-            if(liarCalled){
-                liar(player,lastPlayer,lastCall,lastDice,totalDiceHands_with_wilds,totalNumOfDice,allPlayersNumDice,liarCalled);
-            }
-        }
-        */
-
-
+        //start game
+        startTurns();
     }
 
     @Override
@@ -127,22 +137,88 @@ public class LiarsDiceActivity extends AppCompatActivity{
         super.onDestroy();
     }
 
-    public void showLastPlayerCall (final ImageView P2M,final ImageView P2D, final ImageView P3M,final ImageView P3D,
-                                    final ImageView P4M,final ImageView P4D, final ImageView P5M,final ImageView P5D){
-        Log.d(TAG,"show last player's call");
-        if(getLastPlayer() == 1){
-            P2M.setImageResource(matches_img[getLastCall()-1]);
-            P2D.setImageResource(dice_img[getLastDice()-1]);
-        }else if(getLastPlayer() == 2){
-            P3M.setImageResource(matches_img[getLastCall()-1]);
-            P3D.setImageResource(dice_img[getLastDice()-1]);
-        }else if(getLastPlayer() == 3){
-            P4M.setImageResource(matches_img[getLastCall()-1]);
-            P4D.setImageResource(dice_img[getLastDice()-1]);
-        }else if(getLastPlayer() == 4){
-            P5M.setImageResource(matches_img[getLastCall()-1]);
-            P5D.setImageResource(dice_img[getLastDice()-1]);
+    public void enableButtons(){
+        Log.d(TAG,"Enable UI");
+        runOnUiThread(new Runnable() {
+            public void run() {
+                for (int i = 0; i < PLAYER_UI_SET_BID.length; i++) {
+                    PLAYER_UI_SET_BID[i].setEnabled(true);
+                }
+                for (int i = 0; i < PLAYER_UI_MAIN_ACTIONS.length; i++) {
+                    PLAYER_UI_MAIN_ACTIONS[i].setEnabled(true);
+                }
+            }
+        });
+    }
+
+    public void disableButtons(){
+        Log.d(TAG,"Disable UI");
+        runOnUiThread(new Runnable() {
+            public void run() {
+                for(int i = 0; i < PLAYER_UI_SET_BID.length;i++){
+                    PLAYER_UI_SET_BID[i].setEnabled(false);
+                }
+                for(int i = 0; i < PLAYER_UI_MAIN_ACTIONS.length;i++){
+                    PLAYER_UI_MAIN_ACTIONS[i].setEnabled(false);
+                }
+            }
+        });
+    }
+
+    //CHECKS FOR NEXT PLAYER'S TURN
+    public int nextPlayerUp (int player){
+        int nextPlayer = player + 1;
+        while (nextPlayer < 5 && allPlayersNumDice[nextPlayer] == 0){
+            nextPlayer++;
         }
+        if(nextPlayer == 5){
+            nextPlayer = 0;
+        }
+
+        return nextPlayer;
+    }
+
+    //PAUSE THE GAME FOR ms
+    private void waitForMs (int ms) {
+        try {
+            Thread.sleep(ms);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    //DISPLAY LAST AI CALL
+    public void showLastAiCall (){
+        runOnUiThread(new Runnable() {
+            public void run() {
+                //WHY ARE PLAYERS NOT CORRECT VALUES//
+                //MAY CAUSE FUTURE ERROR//
+                /*
+                Context context = getApplicationContext();
+                CharSequence text = "AI" + player;
+                int duration = Toast.LENGTH_SHORT;
+                Toast.makeText(context, text + " turn", duration);
+                */
+
+                if (player == 2) {
+                    Log.d(TAG,"show AI 1 CAll");
+                    AI_SHOW_CALL[0].setImageResource(matches_img[getLastCall() - 1]);
+                    AI_SHOW_CALL[1].setImageResource(dice_img[getLastDice() - 1]);
+                } else if (player == 3) {
+                    Log.d(TAG,"show AI 2 CAll");
+                    AI_SHOW_CALL[2].setImageResource(matches_img[getLastCall() - 1]);
+                    AI_SHOW_CALL[3].setImageResource(dice_img[getLastDice() - 1]);
+                } else if (player == 4) {
+                    Log.d(TAG,"show AI 3 CAll");
+                    AI_SHOW_CALL[4].setImageResource(matches_img[getLastCall() - 1]);
+                    AI_SHOW_CALL[5].setImageResource(dice_img[getLastDice() - 1]);
+                } else if (player == 0) {
+                    Log.d(TAG,"show AI 4 CAll");
+                    AI_SHOW_CALL[6].setImageResource(matches_img[getLastCall() - 1]);
+                    AI_SHOW_CALL[7].setImageResource(dice_img[getLastDice() - 1]);
+                }
+            }
+        });
 
     }
 
@@ -160,13 +236,14 @@ public class LiarsDiceActivity extends AppCompatActivity{
                 second = j;
             }
         }
+
         int cheat = 0;
+
         setLastCall(2);
         setLastDice(2);
     }
 
-    public void liar (int player, int lastPlayer, int lastCall, int lastDice, int[]totalDiceHands_with_wilds, int totalNumOfDice,
-                      int []allPlayersNumDice,boolean liarCalled){
+    public void liar (int[]totalDiceHands_with_wilds, int []allPlayersNumDice){
         Log.d(TAG,"liar");
         //show "player calls "lastplayer"
         //show lastcall, lasxtdice
@@ -201,82 +278,144 @@ public class LiarsDiceActivity extends AppCompatActivity{
         setTotalNumOfDice(getTotalNumOfDice()-1);
         setLiarCalled(false);
 
+        //Check if player loses
+        checkLoser();
+
+        //check if player wins
+        checkWinner();
+
+        resetHands();
+    }
+
+    public void checkWinner(){
+        if(allPlayersNumDice[1] == 0 &&
+                allPlayersNumDice[2] == 0 &&
+                    allPlayersNumDice[3] == 0 &&
+                        allPlayersNumDice[4] == 0)
+
+            setWinner(true);
+    }
+
+    public void checkLoser(){
         if(allPlayersNumDice[0] == 0){
             setLoser(true);
             //setPlayer(0);
             //setTotalNumOfDice(25);
         }
-        if(allPlayersNumDice[1] == 0 &&
-                allPlayersNumDice[2] == 0 &&
-                allPlayersNumDice[3] == 0 &&
-                allPlayersNumDice[4] == 0){
-            setWinner(true);
-        }
-        resetHands();
     }
 
-    public void turn(int player, int lastPlayer, int lastCall, int lastDice, int[]totalDiceHands_with_wilds,int totalNumOfDice,
-                     int[][]allPlayersDice,int [] allPlayersNumDice, boolean liarCalled,final ImageButton match_up,final ImageButton match_down,final ImageButton dice_up,final ImageButton dice_down,
-                     final Button call, final Button liar, final ImageView match_view, final ImageView dice_view, final Button show_dice, final ListView playerUI,final ImageView P2M,final ImageView P2D,
-                     final ImageView P3M,final ImageView P3D,final ImageView P4M,final ImageView P4D, final ImageView P5M,final ImageView P5D){
-        Log.d(TAG,"turn");
+    public void turn(){
+        Log.d(TAG,"Next Player: " + player + " turn");
+
         if(getPlayer() == 0){
-            Log.d(TAG,"players turn");
-            showUI(match_up, match_down,dice_up,dice_down,call,liar,match_view,dice_view,show_dice,playerUI);
-            if(getLastPlayer() != -1){
-                //SHOW LASTPLAYER, LASTCALL, LASTDICE
-                showLastPlayerCall(P2M,P2D,P3M,P3D,P4M,P4D,P5M,P5D);
-                //Enable liar
-                liar.setEnabled(true);
+            Log.d(TAG,"user turn");
+            Log.d(TAG,"Last player turn: " + lastPlayer);
+            showUI();
+            enableButtons();
+
+            //WAIT FOR PLAYER INPUT//
+            while(true){
+                if(inputQueue != null)
+                    if (inputQueue.isEmpty()) continue;
+
+                if(inputQueue != null && !inputQueue.isEmpty()){
+                    inputQueue.remove(0);
+                    break;
+                }
+
             }
         }else{
             Log.d(TAG,"AI turn");
-            hideUI(match_up, match_down,dice_up,dice_down,call,liar,match_view,dice_view,show_dice,playerUI);
+            Log.d(TAG,"AI Called Liar: " + liarCalled);
+
+            hideUI();
+            disableButtons();
+            setLiarCalled(false);
             aiCall();
+            Log.d(TAG,""+player);
+
             if(!isLiarCalled()){
-                showLastPlayerCall(P2M,P2D,P3M,P3D,P4M,P4D,P5M,P5D);
+                showLastAiCall();
             }
         }
     }
 
-    public void showUI(final ImageButton match_up,final ImageButton match_down,final ImageButton dice_up,final ImageButton dice_down,
-                       final Button call, final Button liar, final ImageView match_view, final ImageView dice_view, final Button show_dice, final ListView playerUI){
+    public void startTurns (){
+        Log.d(TAG,"START TURNS");
+        Runnable runnable = new Runnable() {
+            public void run() {
+                //Start Turns
+                while (winner != true || loser != true) {
+                    waitForMs(1000);
+                    turn();
 
-        match_up.setVisibility(View.VISIBLE);
-        match_down.setVisibility(View.VISIBLE);
-        dice_up.setVisibility(View.VISIBLE);
-        dice_down.setVisibility(View.VISIBLE);
-        call.setVisibility(View.VISIBLE);
-        liar.setVisibility(View.VISIBLE);
-        match_view.setVisibility(View.VISIBLE);
-        dice_view.setVisibility(View.VISIBLE);
-        show_dice.setVisibility(View.VISIBLE);
-        playerUI.setVisibility(View.VISIBLE);
+                    if (liarCalled) {
+                                liar(totalDiceHands_with_wilds, allPlayersNumDice);
+                    }
+
+                    setPlayer(nextPlayerUp(player));
+                }
+            }
+        };
+
+        Thread myThread = new Thread (runnable);
+        myThread.start();
+
+    }
+
+    public void turnButPressed(int buttonNumber){
+        inputQueue.add(buttonNumber);
+    }
+
+    public void showUI(){
+        Log.d(TAG,"Show UI");
+        runOnUiThread(new Runnable() {
+            public void run() {
+                PLAYER_UI_SET_BID[0].setVisibility(View.VISIBLE);
+                PLAYER_UI_SET_BID[1].setVisibility(View.VISIBLE);
+                PLAYER_UI_SET_BID[2].setVisibility(View.VISIBLE);
+                PLAYER_UI_SET_BID[3].setVisibility(View.VISIBLE);
+
+                PLAYER_UI_MAIN_ACTIONS[0].setVisibility(View.VISIBLE);
+                PLAYER_UI_MAIN_ACTIONS[1].setVisibility(View.VISIBLE);
+                PLAYER_UI_MAIN_ACTIONS[2].setVisibility(View.VISIBLE);
+
+                PLAYER_SHOW_CALL[0].setVisibility(View.VISIBLE);
+                PLAYER_SHOW_CALL[1].setVisibility(View.VISIBLE);
+
+                PLAYER_VIEW[0].setVisibility(View.VISIBLE);
+            }
+        });
 
     }
 
 
-    public void hideUI(final ImageButton match_up,final ImageButton match_down,final ImageButton dice_up,final ImageButton dice_down,
-                       final Button call, final Button liar, final ImageView match_view, final ImageView dice_view, final Button show_dice, final ListView playerUI){
+    public void hideUI(){
+        Log.d(TAG,"Hide UI");
+        runOnUiThread(new Runnable() {
+            public void run() {
 
-        match_up.setVisibility(View.GONE);
-        match_down.setVisibility(View.GONE);
-        dice_up.setVisibility(View.GONE);
-        dice_down.setVisibility(View.GONE);
-        call.setVisibility(View.GONE);
-        liar.setVisibility(View.GONE);
-        match_view.setVisibility(View.GONE);
-        dice_view.setVisibility(View.GONE);
-        show_dice.setVisibility(View.GONE);
-        playerUI.setVisibility(View.GONE);
+                PLAYER_UI_SET_BID[0].setVisibility(View.INVISIBLE);
+                PLAYER_UI_SET_BID[1].setVisibility(View.INVISIBLE);
+                PLAYER_UI_SET_BID[2].setVisibility(View.INVISIBLE);
+                PLAYER_UI_SET_BID[3].setVisibility(View.INVISIBLE);
 
+                PLAYER_UI_MAIN_ACTIONS[0].setVisibility(View.INVISIBLE);
+                PLAYER_UI_MAIN_ACTIONS[1].setVisibility(View.INVISIBLE);
+                PLAYER_UI_MAIN_ACTIONS[2].setVisibility(View.INVISIBLE);
+
+                PLAYER_SHOW_CALL[0].setVisibility(View.INVISIBLE);
+                PLAYER_SHOW_CALL[1].setVisibility(View.INVISIBLE);
+
+                PLAYER_VIEW[0].setVisibility(View.INVISIBLE);
+            }
+        });
     }
 
-    public void setButtons(final ImageButton match_up,final ImageButton match_down,final ImageButton dice_up,final ImageButton dice_down,
-                           final Button call, final Button liar, final ImageView match_view, final ImageView dice_view, final Button show_dice, final ListView playerUI) {
+    public void setButtons() {
         ////START BUTTON FUCNTIONALITY////
-        if(call != null){
-            call.setOnClickListener(new View.OnClickListener() {
+        if(PLAYER_UI_MAIN_ACTIONS[0] != null){
+            PLAYER_UI_MAIN_ACTIONS[0].setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if(MATCH_BID < getLastCall () || (MATCH_BID == getLastCall() && DICE_BID <= getLastDice())){
@@ -288,27 +427,33 @@ public class LiarsDiceActivity extends AppCompatActivity{
                     }
                     setLastCall(MATCH_BID);
                     setLastDice(DICE_BID);
-                    setLastPlayer(0);
-                    int i = 1;
-                    while (i < 5 && allPlayersNumDice[i] == 0){
-                        i++;
-                    }
-                    setPlayer(i);
-                    hideUI(match_up,match_down,dice_up,dice_down,call,liar,match_view,dice_view,show_dice,playerUI);
 
+                    setLastPlayer(0);
+                    setLiarCalled(false);
+
+                    turnButPressed(0);
+
+                    Log.d(TAG,"Call: "+lastCall +", Dice: " + lastDice);
+
+                    //int nextPlayer = nextPlayerUp();
+                    //setPlayer(nextPlayer);
+                    //hideUI();
+
+                    //startTurns();
                     //Log.d(TAG, "call");
                 }
             });
 
         }
 
-        if(liar !=null){
-            liar.setOnClickListener(new View.OnClickListener() {
+        if(PLAYER_UI_MAIN_ACTIONS[1] !=null){
+            PLAYER_UI_MAIN_ACTIONS[1].setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if(getLastPlayer() == -1){
                     }else{
                         setLiarCalled(true);
+                        turnButPressed(1);
                     }
                     //Log.d(TAG, "liar");
                 }
@@ -316,8 +461,8 @@ public class LiarsDiceActivity extends AppCompatActivity{
 
         }
 
-        if(match_up != null) {
-            match_up.setOnClickListener(new View.OnClickListener() {
+        if(PLAYER_UI_SET_BID[0] != null) {
+            PLAYER_UI_SET_BID[0].setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     MATCH_BID += 1;
@@ -326,31 +471,31 @@ public class LiarsDiceActivity extends AppCompatActivity{
                     runOnUiThread(new Runnable() {
                         public void run() {
                             switch (MATCH_BID){
-                                case 1: setNumMatches(match_view,0); break;
-                                case 2: setNumMatches(match_view,1); break;
-                                case 3: setNumMatches(match_view,2); break;
-                                case 4: setNumMatches(match_view,3); break;
-                                case 5: setNumMatches(match_view,4); break;
-                                case 6: setNumMatches(match_view,5); break;
-                                case 7: setNumMatches(match_view,6); break;
-                                case 8: setNumMatches(match_view,7); break;
-                                case 9: setNumMatches(match_view,8); break;
-                                case 10: setNumMatches(match_view,9); break;
-                                case 11: setNumMatches(match_view,10); break;
-                                case 12: setNumMatches(match_view,11); break;
-                                case 13: setNumMatches(match_view,12); break;
-                                case 14: setNumMatches(match_view,13); break;
-                                case 15: setNumMatches(match_view,14); break;
-                                case 16: setNumMatches(match_view,15); break;
-                                case 17: setNumMatches(match_view,16); break;
-                                case 18: setNumMatches(match_view,17); break;
-                                case 19: setNumMatches(match_view,18); break;
-                                case 20: setNumMatches(match_view,19); break;
-                                case 21: setNumMatches(match_view,20); break;
-                                case 22: setNumMatches(match_view,21); break;
-                                case 23: setNumMatches(match_view,22); break;
-                                case 24: setNumMatches(match_view,23); break;
-                                case 25: setNumMatches(match_view,24); break;
+                                case 1: setNumMatches(PLAYER_SHOW_CALL[0],0); break;
+                                case 2: setNumMatches(PLAYER_SHOW_CALL[0],1); break;
+                                case 3: setNumMatches(PLAYER_SHOW_CALL[0],2); break;
+                                case 4: setNumMatches(PLAYER_SHOW_CALL[0],3); break;
+                                case 5: setNumMatches(PLAYER_SHOW_CALL[0],4); break;
+                                case 6: setNumMatches(PLAYER_SHOW_CALL[0],5); break;
+                                case 7: setNumMatches(PLAYER_SHOW_CALL[0],6); break;
+                                case 8: setNumMatches(PLAYER_SHOW_CALL[0],7); break;
+                                case 9: setNumMatches(PLAYER_SHOW_CALL[0],8); break;
+                                case 10: setNumMatches(PLAYER_SHOW_CALL[0],9); break;
+                                case 11: setNumMatches(PLAYER_SHOW_CALL[0],10); break;
+                                case 12: setNumMatches(PLAYER_SHOW_CALL[0],11); break;
+                                case 13: setNumMatches(PLAYER_SHOW_CALL[0],12); break;
+                                case 14: setNumMatches(PLAYER_SHOW_CALL[0],13); break;
+                                case 15: setNumMatches(PLAYER_SHOW_CALL[0],14); break;
+                                case 16: setNumMatches(PLAYER_SHOW_CALL[0],15); break;
+                                case 17: setNumMatches(PLAYER_SHOW_CALL[0],16); break;
+                                case 18: setNumMatches(PLAYER_SHOW_CALL[0],17); break;
+                                case 19: setNumMatches(PLAYER_SHOW_CALL[0],18); break;
+                                case 20: setNumMatches(PLAYER_SHOW_CALL[0],19); break;
+                                case 21: setNumMatches(PLAYER_SHOW_CALL[0],20); break;
+                                case 22: setNumMatches(PLAYER_SHOW_CALL[0],21); break;
+                                case 23: setNumMatches(PLAYER_SHOW_CALL[0],22); break;
+                                case 24: setNumMatches(PLAYER_SHOW_CALL[0],23); break;
+                                case 25: setNumMatches(PLAYER_SHOW_CALL[0],24); break;
                             }
                         }
                     });
@@ -359,8 +504,8 @@ public class LiarsDiceActivity extends AppCompatActivity{
             });
         }
 
-        if(match_down != null){
-            match_down.setOnClickListener(new View.OnClickListener() {
+        if(PLAYER_UI_SET_BID[1] != null){
+            PLAYER_UI_SET_BID[1].setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     MATCH_BID-=1;
@@ -369,31 +514,31 @@ public class LiarsDiceActivity extends AppCompatActivity{
                     runOnUiThread(new Runnable() {
                         public void run() {
                             switch (MATCH_BID) {
-                                case 1:setNumMatches(match_view, 0);break;
-                                case 2:setNumMatches(match_view, 1);break;
-                                case 3:setNumMatches(match_view, 2);break;
-                                case 4:setNumMatches(match_view, 3);break;
-                                case 5:setNumMatches(match_view, 4);break;
-                                case 6:setNumMatches(match_view, 5);break;
-                                case 7:setNumMatches(match_view, 6);break;
-                                case 8:setNumMatches(match_view, 7);break;
-                                case 9:setNumMatches(match_view, 8);break;
-                                case 10:setNumMatches(match_view, 9);break;
-                                case 11:setNumMatches(match_view, 10);break;
-                                case 12:setNumMatches(match_view, 11);break;
-                                case 13:setNumMatches(match_view, 12);break;
-                                case 14:setNumMatches(match_view, 13);break;
-                                case 15:setNumMatches(match_view, 14);break;
-                                case 16:setNumMatches(match_view, 15);break;
-                                case 17:setNumMatches(match_view, 16);break;
-                                case 18:setNumMatches(match_view, 17);break;
-                                case 19:setNumMatches(match_view, 18);break;
-                                case 20:setNumMatches(match_view, 19);break;
-                                case 21:setNumMatches(match_view, 20);break;
-                                case 22:setNumMatches(match_view, 21);break;
-                                case 23:setNumMatches(match_view, 22);break;
-                                case 24:setNumMatches(match_view, 23);break;
-                                case 25:setNumMatches(match_view, 24);break;
+                                case 1:setNumMatches(PLAYER_SHOW_CALL[0], 0);break;
+                                case 2:setNumMatches(PLAYER_SHOW_CALL[0], 1);break;
+                                case 3:setNumMatches(PLAYER_SHOW_CALL[0], 2);break;
+                                case 4:setNumMatches(PLAYER_SHOW_CALL[0], 3);break;
+                                case 5:setNumMatches(PLAYER_SHOW_CALL[0], 4);break;
+                                case 6:setNumMatches(PLAYER_SHOW_CALL[0], 5);break;
+                                case 7:setNumMatches(PLAYER_SHOW_CALL[0], 6);break;
+                                case 8:setNumMatches(PLAYER_SHOW_CALL[0], 7);break;
+                                case 9:setNumMatches(PLAYER_SHOW_CALL[0], 8);break;
+                                case 10:setNumMatches(PLAYER_SHOW_CALL[0], 9);break;
+                                case 11:setNumMatches(PLAYER_SHOW_CALL[0], 10);break;
+                                case 12:setNumMatches(PLAYER_SHOW_CALL[0], 11);break;
+                                case 13:setNumMatches(PLAYER_SHOW_CALL[0], 12);break;
+                                case 14:setNumMatches(PLAYER_SHOW_CALL[0], 13);break;
+                                case 15:setNumMatches(PLAYER_SHOW_CALL[0], 14);break;
+                                case 16:setNumMatches(PLAYER_SHOW_CALL[0], 15);break;
+                                case 17:setNumMatches(PLAYER_SHOW_CALL[0], 16);break;
+                                case 18:setNumMatches(PLAYER_SHOW_CALL[0], 17);break;
+                                case 19:setNumMatches(PLAYER_SHOW_CALL[0], 18);break;
+                                case 20:setNumMatches(PLAYER_SHOW_CALL[0], 19);break;
+                                case 21:setNumMatches(PLAYER_SHOW_CALL[0], 20);break;
+                                case 22:setNumMatches(PLAYER_SHOW_CALL[0], 21);break;
+                                case 23:setNumMatches(PLAYER_SHOW_CALL[0], 22);break;
+                                case 24:setNumMatches(PLAYER_SHOW_CALL[0], 23);break;
+                                case 25:setNumMatches(PLAYER_SHOW_CALL[0], 24);break;
                             }
                         }
                     });
@@ -402,8 +547,8 @@ public class LiarsDiceActivity extends AppCompatActivity{
             });
         }
 
-        if(dice_up != null){
-            dice_up.setOnClickListener(new View.OnClickListener() {
+        if(PLAYER_UI_SET_BID[2] != null){
+            PLAYER_UI_SET_BID[2].setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     DICE_BID+=1;
@@ -411,12 +556,12 @@ public class LiarsDiceActivity extends AppCompatActivity{
                     runOnUiThread(new Runnable() {
                         public void run() {
                             switch (DICE_BID) {
-                                case 1:setDiceBid(dice_view, 0);break;
-                                case 2:setDiceBid(dice_view, 1);break;
-                                case 3:setDiceBid(dice_view, 2);break;
-                                case 4:setDiceBid(dice_view, 3);break;
-                                case 5:setDiceBid(dice_view, 4);break;
-                                case 6:setDiceBid(dice_view, 5);break;
+                                case 1:setDiceBid(PLAYER_SHOW_CALL[1], 0);break;
+                                case 2:setDiceBid(PLAYER_SHOW_CALL[1], 1);break;
+                                case 3:setDiceBid(PLAYER_SHOW_CALL[1], 2);break;
+                                case 4:setDiceBid(PLAYER_SHOW_CALL[1], 3);break;
+                                case 5:setDiceBid(PLAYER_SHOW_CALL[1], 4);break;
+                                case 6:setDiceBid(PLAYER_SHOW_CALL[1], 5);break;
                             }
                         }
                     });
@@ -425,8 +570,8 @@ public class LiarsDiceActivity extends AppCompatActivity{
             });
         }
 
-        if(dice_down != null){
-            dice_down.setOnClickListener(new View.OnClickListener() {
+        if(PLAYER_UI_SET_BID[3] != null){
+            PLAYER_UI_SET_BID[3].setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     DICE_BID-=1;
@@ -434,12 +579,12 @@ public class LiarsDiceActivity extends AppCompatActivity{
                     runOnUiThread(new Runnable() {
                         public void run() {
                             switch (DICE_BID) {
-                                case 1:setDiceBid(dice_view, 0);break;
-                                case 2:setDiceBid(dice_view, 1);break;
-                                case 3:setDiceBid(dice_view, 2);break;
-                                case 4:setDiceBid(dice_view, 3);break;
-                                case 5:setDiceBid(dice_view, 4);break;
-                                case 6:setDiceBid(dice_view, 5);break;
+                                case 1:setDiceBid(PLAYER_SHOW_CALL[1], 0);break;
+                                case 2:setDiceBid(PLAYER_SHOW_CALL[1], 1);break;
+                                case 3:setDiceBid(PLAYER_SHOW_CALL[1], 2);break;
+                                case 4:setDiceBid(PLAYER_SHOW_CALL[1], 3);break;
+                                case 5:setDiceBid(PLAYER_SHOW_CALL[1], 4);break;
+                                case 6:setDiceBid(PLAYER_SHOW_CALL[1], 5);break;
                             }
                         }
                     });
@@ -448,8 +593,8 @@ public class LiarsDiceActivity extends AppCompatActivity{
             });
         }
 
-        if (show_dice != null) {
-            show_dice.setOnClickListener(new View.OnClickListener() {
+        if (PLAYER_UI_MAIN_ACTIONS[2] != null) {
+            PLAYER_UI_MAIN_ACTIONS[2].setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     runOnUiThread(new Runnable() {
@@ -490,6 +635,8 @@ public class LiarsDiceActivity extends AppCompatActivity{
         }
         /////END BUTTONS////////
     }
+
+
 
     ///// START LIARS DICE GAMING FUCNTIONS///////
 

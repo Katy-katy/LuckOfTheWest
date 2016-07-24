@@ -96,7 +96,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Show Hand"
-        android:id="@+id/roll_button"
+        android:id="@+id/show_dice_button"
         android:layout_marginRight="164dp"
         android:layout_marginEnd="164dp"
         android:layout_alignTop="@+id/match_down"
@@ -107,61 +107,61 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/P2Match"
-        android:layout_below="@+id/liar_button"
+        android:layout_above="@+id/P4Match"
         android:layout_toLeftOf="@+id/listView"
         android:layout_toStartOf="@+id/listView"
-        android:layout_marginRight="39dp"
-        android:layout_marginEnd="39dp" />
+        android:layout_marginRight="106dp"
+        android:layout_marginEnd="106dp" />
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/P2Dice"
-        android:layout_alignBottom="@+id/match_up"
-        android:layout_toLeftOf="@+id/listView"
-        android:layout_toStartOf="@+id/listView" />
+        android:layout_alignTop="@+id/P2Match"
+        android:layout_alignLeft="@+id/P2Match"
+        android:layout_alignStart="@+id/P2Match"
+        android:layout_marginLeft="45dp"
+        android:layout_marginStart="45dp" />
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/P3Match"
-        android:layout_above="@+id/P2Dice"
-        android:layout_alignRight="@+id/roll_button"
-        android:layout_alignEnd="@+id/roll_button"
-        android:layout_marginRight="39dp"
-        android:layout_marginEnd="39dp" />
+        android:layout_alignTop="@+id/P2Match"
+        android:layout_toLeftOf="@+id/P3Dice"
+        android:layout_toStartOf="@+id/P3Dice" />
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/P3Dice"
-        android:layout_alignBottom="@+id/P3Match"
-        android:layout_alignRight="@+id/P3Match"
-        android:layout_alignEnd="@+id/P3Match" />
+        android:layout_alignTop="@+id/P3Match"
+        android:layout_alignLeft="@+id/show_dice_button"
+        android:layout_alignStart="@+id/show_dice_button" />
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/P4Match"
-        android:layout_above="@+id/numbers"
-        android:layout_toLeftOf="@+id/roll_button"
-        android:layout_toStartOf="@+id/roll_button"
-        android:layout_marginRight="70dp"
-        android:layout_marginEnd="70dp" />
+        android:layout_below="@+id/match_up"
+        android:layout_toRightOf="@+id/P5Match"
+        android:layout_toEndOf="@+id/P5Match" />
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/P4Dice"
-        android:layout_alignTop="@+id/P2Dice"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_below="@+id/P3Match"
+        android:layout_toRightOf="@+id/P5Match"
+        android:layout_toEndOf="@+id/P5Match"
+        android:layout_marginLeft="38dp"
+        android:layout_marginStart="38dp" />
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/P5Match"
-        android:layout_above="@+id/roll_button"
+        android:layout_above="@+id/show_dice_button"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
@@ -169,8 +169,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/P5Dice"
-        android:layout_alignBottom="@+id/P5Match"
-        android:layout_alignRight="@+id/P4Match"
-        android:layout_alignEnd="@+id/P4Match" />
+        android:layout_alignTop="@+id/P5Match"
+        android:layout_toRightOf="@+id/P5Match"
+        android:layout_toEndOf="@+id/P5Match" />
 
 </RelativeLayout>
