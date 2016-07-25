@@ -2,6 +2,7 @@ package com.noahdavidson.luckofthewest;
 
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
@@ -20,6 +21,7 @@ import java.util.Random;
  * Created by noahdavidson on 7/9/16.
  */
 public class SchoolActivity extends AppCompatActivity {
+    private MediaPlayer button_sound;
 
     private Button button1;
     private Button button2;
@@ -58,7 +60,9 @@ public class SchoolActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_school);
-
+        
+        //Create card flip sound container
+        button_sound = MediaPlayer.create(SchoolActivity.this, R.raw.card_credit_f4ngy);
         //GET CUSTOM FONT
         Typeface custom_font = Typeface.createFromAsset(getAssets(), "fonts/Romantiques.ttf");
         //SET TITLE FONT
@@ -119,12 +123,15 @@ public class SchoolActivity extends AppCompatActivity {
                         String picture = "card" + card[openCard1];
                         int id = getResources().getIdentifier(picture, "drawable", getPackageName());
                         v.setBackgroundResource(id);
+                        button_sound.start();
+                        
                     }
                     else{
                         openCard2 = idToIndex(v.getId());
                         String picture = "card" + card[openCard2];
                         int id = getResources().getIdentifier(picture, "drawable", getPackageName());
                         v.setBackgroundResource(id);
+                        button_sound.start();
 
                         if ((card[openCard1] == card[openCard2]) && (openCard1 != openCard2)){
                             buttons[openCard2].postDelayed(new Runnable() { public void run() { buttons[openCard2].setVisibility(View.INVISIBLE); } }, 100);
@@ -147,11 +154,13 @@ public class SchoolActivity extends AppCompatActivity {
                             buttons[openCard2].postDelayed(new Runnable() {
                                 public void run() {
                                     buttons[openCard2].setBackgroundResource(R.drawable.card_back);
+                                    button_sound.start();
                                 }
                             }, 150);
                             buttons[openCard1].postDelayed(new Runnable() {
                                 public void run() {
                                     buttons[openCard1].setBackgroundResource(R.drawable.card_back);
+                                    button_sound.start();
                                 }
                             }, 150);
                             haveOpenCard = false;
