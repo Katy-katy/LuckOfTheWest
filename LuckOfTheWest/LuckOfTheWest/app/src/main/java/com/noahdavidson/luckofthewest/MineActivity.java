@@ -2,6 +2,7 @@ package com.noahdavidson.luckofthewest;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.media.MediaPlayer;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.ActionBar;
@@ -15,11 +16,8 @@ import android.widget.ImageButton;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.concurrent.RunnableFuture;
 
 public class MineActivity extends AppCompatActivity {
 
@@ -36,6 +34,9 @@ public class MineActivity extends AppCompatActivity {
     ArrayList<Integer> answerSeq;
     ArrayList<Integer> inputQueue;
 
+    //private MediaPlayer background_music;
+    private MediaPlayer button_sounds[];
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +51,14 @@ public class MineActivity extends AppCompatActivity {
         mineBut[3] = (ImageButton)findViewById(R.id.mineButton4);
         mineBut[4] = (ImageButton)findViewById(R.id.mineButton5);
         mineBut[5] = (ImageButton)findViewById(R.id.mineButton6);
+        //Create button sounds
+        button_sounds = new MediaPlayer[NUM_MINEBUTTONS];
+        button_sounds[0] = MediaPlayer.create(MineActivity.this, R.raw.pick_1_credit_spookymodern_cut);
+        button_sounds[1] = MediaPlayer.create(MineActivity.this, R.raw.pick_2_credit_spookymodern_cut);
+        button_sounds[2] = MediaPlayer.create(MineActivity.this, R.raw.pick_3_credit_spookymodern_cut);
+        button_sounds[3] = MediaPlayer.create(MineActivity.this, R.raw.pick_4_credit_spookymodern_cut);
+        button_sounds[4] = MediaPlayer.create(MineActivity.this, R.raw.pick_5_credit_spookymodern_cut);
+        button_sounds[5] = MediaPlayer.create(MineActivity.this, R.raw.pick_6_credit_spookymodern_cut);
 
         statusText = (TextView)findViewById(R.id.statusText);
         scoreText = (TextView)findViewById(R.id.scoreText);
@@ -117,6 +126,7 @@ public class MineActivity extends AppCompatActivity {
                     answerSeq.add(random.nextInt(NUM_MINEBUTTONS));
 
                     enableMineButtons(false);
+                    inputQueue.clear();
                     int totalSize = answerSeq.size();
                     for (int i=0; i<totalSize; i++) {
                         blinkButton(answerSeq.get(i));
@@ -242,6 +252,9 @@ public class MineActivity extends AppCompatActivity {
             else if (msg.getData().get("setButtonBackgroundColor") != null) {
                 int[] data = msg.getData().getIntArray("setButtonBackgroundColor");
                 mineBut[data[0]].setBackgroundColor(data[1]);
+                if (data[1]==Color.RED) {
+                    button_sounds[data[0]].start();
+                }
             }
             else if (msg.getData().get("enableStartButton") != null) {
                 boolean enabled = msg.getData().getBoolean("enableStartButton");
@@ -258,6 +271,7 @@ public class MineActivity extends AppCompatActivity {
 
     protected void mineButPressed (View v, int buttonNumber) {
         statusText.setText(String.valueOf(buttonNumber));
+        button_sounds[buttonNumber].start();
         inputQueue.add(buttonNumber);
     }
 
@@ -282,7 +296,7 @@ public class MineActivity extends AppCompatActivity {
         Button goBack = (Button)popupView.findViewById(R.id.goBack);
         final TextView sc = (TextView)popupView.findViewById(R.id.sc);
 
-        final int score_ = score;
+        final int score_ = score*100;
 
         runOnUiThread(new Runnable (){
             public void run() {
@@ -291,7 +305,7 @@ public class MineActivity extends AppCompatActivity {
             }
         });
 
-        GameBoardActivity.user_player.addGold(score);
+        GameBoardActivity.user_player.addGold(score_);
 
         goBack.setOnClickListener(new Button.OnClickListener(){
             @Override
@@ -303,7 +317,7 @@ public class MineActivity extends AppCompatActivity {
             }});
         runOnUiThread(new Runnable() {
             public void run() {
-                popupWindow.showAtLocation(statusText, Gravity.CENTER, 0, 0);
+                popupWindow.showAtLocation(statusText, Gravity.CENTER, -50, -40);
             }
         });
     }

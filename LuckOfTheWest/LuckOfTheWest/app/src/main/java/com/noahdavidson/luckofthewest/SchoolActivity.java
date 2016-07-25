@@ -2,6 +2,7 @@ package com.noahdavidson.luckofthewest;
 
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
@@ -20,6 +21,7 @@ import java.util.Random;
  * Created by noahdavidson on 7/9/16.
  */
 public class SchoolActivity extends AppCompatActivity {
+    private MediaPlayer button_sound;
 
     private Button button1;
     private Button button2;
@@ -58,7 +60,9 @@ public class SchoolActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_school);
-
+        
+        //Create card flip sound container
+        button_sound = MediaPlayer.create(SchoolActivity.this, R.raw.card_credit_f4ngy);
         //GET CUSTOM FONT
         Typeface custom_font = Typeface.createFromAsset(getAssets(), "fonts/Romantiques.ttf");
         //SET TITLE FONT
@@ -119,16 +123,19 @@ public class SchoolActivity extends AppCompatActivity {
                         String picture = "card" + card[openCard1];
                         int id = getResources().getIdentifier(picture, "drawable", getPackageName());
                         v.setBackgroundResource(id);
+                        button_sound.start();
+                        
                     }
                     else{
                         openCard2 = idToIndex(v.getId());
                         String picture = "card" + card[openCard2];
                         int id = getResources().getIdentifier(picture, "drawable", getPackageName());
                         v.setBackgroundResource(id);
+                        button_sound.start();
 
-                        if (card[openCard1] == card[openCard2]){
-                            buttons[openCard2].postDelayed(new Runnable() { public void run() { buttons[openCard2].setVisibility(View.INVISIBLE); } }, 500);
-                            buttons[openCard1].postDelayed(new Runnable() { public void run() { buttons[openCard1].setVisibility(View.INVISIBLE); } }, 500);
+                        if ((card[openCard1] == card[openCard2]) && (openCard1 != openCard2)){
+                            buttons[openCard2].postDelayed(new Runnable() { public void run() { buttons[openCard2].setVisibility(View.INVISIBLE); } }, 100);
+                            buttons[openCard1].postDelayed(new Runnable() { public void run() { buttons[openCard1].setVisibility(View.INVISIBLE); } }, 100);
                             haveOpenCard = false;
                             result[openCard1] = true;
                             result[openCard2] = true;
@@ -147,8 +154,16 @@ public class SchoolActivity extends AppCompatActivity {
                             buttons[openCard2].postDelayed(new Runnable() {
                                 public void run() {
                                     buttons[openCard2].setBackgroundResource(R.drawable.card_back);
+                                    button_sound.start();
                                 }
-                            }, 500);
+                            }, 150);
+                            buttons[openCard1].postDelayed(new Runnable() {
+                                public void run() {
+                                    buttons[openCard1].setBackgroundResource(R.drawable.card_back);
+                                    button_sound.start();
+                                }
+                            }, 150);
+                            haveOpenCard = false;
                         }
                     }
                 }
@@ -203,21 +218,13 @@ public class SchoolActivity extends AppCompatActivity {
         goBack.setOnClickListener(new Button.OnClickListener(){
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(),GameBoardActivity.class);
+                Intent intent = new Intent(SchoolActivity.this ,GameBoardActivity.class);
                 startActivity(intent);
 
             }});
-         /*
-        playAgain.setOnClickListener(new Button.OnClickListener(){
 
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(SchoolActivity.this,SchoolActivity.class);
-                startActivity(intent);
-            }}); */
         popupWindow.showAtLocation(button5, Gravity.CENTER, 0, 0);
     }
-
 
     private Runnable updateTimerThread = new Runnable() {
         public void run() {
@@ -227,6 +234,42 @@ public class SchoolActivity extends AppCompatActivity {
             int mins = secs / 60;
             secs = secs % 60;
             int milliseconds = (int) (updatedTime % 1000);
+
+
+            if ((secs == 0)&& (milliseconds < 100)){
+                //stop timer
+                timeSwapBuff += timeInMilliseconds;
+                customHandler.removeCallbacks(updateTimerThread);
+
+                //show pop-up view with score and options
+                LayoutInflater layoutInflater = (LayoutInflater)getBaseContext()
+                        .getSystemService(LAYOUT_INFLATER_SERVICE);
+                View popupView = layoutInflater.inflate(R.layout.popup, null);
+                final PopupWindow popupWindow = new PopupWindow(
+                        popupView,
+                        ActionBar.LayoutParams.WRAP_CONTENT,
+                        ActionBar.LayoutParams.WRAP_CONTENT);
+                Button goBack = (Button)popupView.findViewById(R.id.goBack);
+                TextView sc = (TextView)popupView.findViewById(R.id.sc);
+                sc.setText("$0");
+                sc.setTextSize(28);
+
+                goBack.setOnClickListener(new Button.OnClickListener(){
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(getApplicationContext(),GameBoardActivity.class);
+                        startActivity(intent);
+
+                    }});
+
+                popupWindow.showAtLocation(button5, Gravity.CENTER, 0, 0);
+                timerValue.setText("00:00:000");
+                for (Button but : buttons) {
+                    but.setEnabled(false);
+                }
+                return;
+
+            }
             timerValue.setText("" + mins + ":"
                     + String.format("%02d", secs) + ":"
                     + String.format("%03d", milliseconds));
@@ -234,3 +277,6 @@ public class SchoolActivity extends AppCompatActivity {
         }
     };
 }
+
+
+

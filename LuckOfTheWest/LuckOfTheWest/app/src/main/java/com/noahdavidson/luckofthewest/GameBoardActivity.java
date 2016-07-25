@@ -3,6 +3,7 @@ package com.noahdavidson.luckofthewest;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.graphics.drawable.AnimationDrawable;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -15,7 +16,8 @@ import com.noahdavidson.luckofthewest.player;
  * Created by noahdavidson on 7/6/16.
  */
 public class GameBoardActivity extends AppCompatActivity {
-
+    private MediaPlayer background_music;
+    private MediaPlayer button_sound;
     public static player user_player = new player();
     int goldCount = user_player.getGold();
 
@@ -27,6 +29,12 @@ public class GameBoardActivity extends AppCompatActivity {
         startAnim();
         //SET FONT TYPE
         setFonts();
+        //Start background music
+        background_music = MediaPlayer.create(GameBoardActivity.this, R.raw.western_theme_1);
+        background_music.start();
+        //Set button sound
+        button_sound = MediaPlayer.create(GameBoardActivity.this, R.raw.door_1_credit_suhral);
+
     }
 
     @Override
@@ -38,21 +46,29 @@ public class GameBoardActivity extends AppCompatActivity {
 
 
     public void startBank(View view) {
+        background_music.pause();
+        button_sound.start();
         Intent intent = new Intent(this, ShootOutActivity.class);
         startActivity(intent);
     }
 
     public void startSchool(View view) {
+        background_music.pause();
+        button_sound.start();
         Intent intent = new Intent(this, SchoolActivity.class);
         startActivity(intent);
     }
 
     public void startSaloon(View view) {
+        background_music.pause();
+        button_sound.start();
         Intent intent = new Intent(this, SaloonActivity.class);
         startActivity(intent);
     }
 
     public void startMine(View view) {
+        background_music.pause();
+        button_sound.start();
         Intent intent = new Intent(this, MineActivity.class);
         startActivity(intent);
     }
