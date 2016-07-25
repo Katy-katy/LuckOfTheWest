@@ -1,13 +1,18 @@
 package com.noahdavidson.luckofthewest;
 
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 //import android.os.Handler;
 //import android.os.Message;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import java.util.Random;
@@ -33,6 +38,7 @@ public class ShootOutActivity extends AppCompatActivity {
     private int player_turn = 0;
     //Random number generator
     private Random rand_num;
+    private int winnings = 0;
 
     //Start game
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +59,6 @@ public class ShootOutActivity extends AppCompatActivity {
         button_sounds[6] = MediaPlayer.create(ShootOutActivity.this, R.raw.shot_3_credit_rock_savage);
         button_sounds[7] = MediaPlayer.create(ShootOutActivity.this, R.raw.shot_2_credit_rock_savage);
         button_sounds[8] = MediaPlayer.create(ShootOutActivity.this, R.raw.shot_1_credit_rock_savage);
-
         //Create image containers
         images = new int[BOARD_SIZE];
         images[0] = R.drawable.bullet_hole_0;
@@ -65,7 +70,6 @@ public class ShootOutActivity extends AppCompatActivity {
         images[6] = R.drawable.bullet_hole_6;
         images[7] = R.drawable.bullet_hole_7;
         images[8] = R.drawable.bullet_hole_8;
-
         //Create board
         board_state = new char[BOARD_SIZE];
         board_buttons = new ImageButton[BOARD_SIZE];
@@ -85,6 +89,11 @@ public class ShootOutActivity extends AppCompatActivity {
         }
         draw_button = (Button) findViewById(R.id.draw_button);
         draw_button.setEnabled(true);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 
     public void executeGame(View view) {
@@ -118,9 +127,46 @@ public class ShootOutActivity extends AppCompatActivity {
     protected void resolve() {
         if (player_turn == 1) {
             setDirectionsText(R.string.win);
+            winnings = 500;
         } else {
             setDirectionsText(R.string.lose);
+            winnings = -100;
         }
+        showPopUp();
+    }
+
+    //End game
+    private void showPopUp() {
+        LayoutInflater layoutInflater = (LayoutInflater)getBaseContext()
+                .getSystemService(LAYOUT_INFLATER_SERVICE);
+        View popupView = layoutInflater.inflate(R.layout.popup, null);
+        final PopupWindow popupWindow = new PopupWindow(
+                popupView,
+                ActionBar.LayoutParams.WRAP_CONTENT,
+                ActionBar.LayoutParams.WRAP_CONTENT);
+        Button goBack = (Button)popupView.findViewById(R.id.goBack);
+        final TextView sc = (TextView)popupView.findViewById(R.id.sc);
+        final int score_ = winnings;
+        runOnUiThread(new Runnable (){
+            public void run() {
+                sc.setText("$"+ score_);
+                sc.setTextSize(28);
+            }
+        });
+        GameBoardActivity.user_player.addGold( (int)score_);
+
+        goBack.setOnClickListener(new Button.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(),GameBoardActivity.class);
+                startActivity(intent);
+                finish();
+            }});
+        runOnUiThread(new Runnable() {
+            public void run() {
+                popupWindow.showAtLocation(directions, Gravity.CENTER, 0, 0);
+            }
+        });
     }
 
     //Generate move for ai
