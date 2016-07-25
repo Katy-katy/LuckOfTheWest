@@ -126,9 +126,9 @@ public class SchoolActivity extends AppCompatActivity {
                         int id = getResources().getIdentifier(picture, "drawable", getPackageName());
                         v.setBackgroundResource(id);
 
-                        if (card[openCard1] == card[openCard2]){
-                            buttons[openCard2].postDelayed(new Runnable() { public void run() { buttons[openCard2].setVisibility(View.INVISIBLE); } }, 50);
-                            buttons[openCard1].postDelayed(new Runnable() { public void run() { buttons[openCard1].setVisibility(View.INVISIBLE); } }, 50);
+                        if ((card[openCard1] == card[openCard2]) && (openCard1 != openCard2)){
+                            buttons[openCard2].postDelayed(new Runnable() { public void run() { buttons[openCard2].setVisibility(View.INVISIBLE); } }, 100);
+                            buttons[openCard1].postDelayed(new Runnable() { public void run() { buttons[openCard1].setVisibility(View.INVISIBLE); } }, 100);
                             haveOpenCard = false;
                             result[openCard1] = true;
                             result[openCard2] = true;
@@ -148,12 +148,12 @@ public class SchoolActivity extends AppCompatActivity {
                                 public void run() {
                                     buttons[openCard2].setBackgroundResource(R.drawable.card_back);
                                 }
-                            }, 100);
+                            }, 150);
                             buttons[openCard1].postDelayed(new Runnable() {
                                 public void run() {
                                     buttons[openCard1].setBackgroundResource(R.drawable.card_back);
                                 }
-                            }, 100);
+                            }, 150);
                             haveOpenCard = false;
                         }
                     }
