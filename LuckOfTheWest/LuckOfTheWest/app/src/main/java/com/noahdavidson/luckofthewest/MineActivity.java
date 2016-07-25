@@ -56,12 +56,12 @@ public class MineActivity extends AppCompatActivity {
         mineBut[5] = (ImageButton)findViewById(R.id.mineButton6);
         //Create button sounds
         button_sounds = new MediaPlayer[NUM_MINEBUTTONS];
-        button_sounds[0] = MediaPlayer.create(MineActivity.this, R.raw.pick_1_credit_spookymodern_cut);
-        button_sounds[1] = MediaPlayer.create(MineActivity.this, R.raw.pick_2_credit_spookymodern_cut);
-        button_sounds[2] = MediaPlayer.create(MineActivity.this, R.raw.pick_3_credit_spookymodern_cut);
-        button_sounds[3] = MediaPlayer.create(MineActivity.this, R.raw.pick_4_credit_spookymodern_cut);
-        button_sounds[4] = MediaPlayer.create(MineActivity.this, R.raw.pick_5_credit_spookymodern_cut);
-        button_sounds[5] = MediaPlayer.create(MineActivity.this, R.raw.pick_6_credit_spookymodern_cut);
+        button_sounds[0] = MediaPlayer.create(MineActivity.this, R.raw.pick_1_credit_spookymodem_cut);
+        button_sounds[1] = MediaPlayer.create(MineActivity.this, R.raw.pick_2_credit_spookymodem_cut);
+        button_sounds[2] = MediaPlayer.create(MineActivity.this, R.raw.pick_3_credit_spookymodem_cut);
+        button_sounds[3] = MediaPlayer.create(MineActivity.this, R.raw.pick_4_credit_spookymodem_cut);
+        button_sounds[4] = MediaPlayer.create(MineActivity.this, R.raw.pick_5_credit_spookymodem_cut);
+        button_sounds[5] = MediaPlayer.create(MineActivity.this, R.raw.pick_6_credit_spookymodem_cut);
 
         statusText = (TextView)findViewById(R.id.statusText);
         scoreText = (TextView)findViewById(R.id.scoreText);
