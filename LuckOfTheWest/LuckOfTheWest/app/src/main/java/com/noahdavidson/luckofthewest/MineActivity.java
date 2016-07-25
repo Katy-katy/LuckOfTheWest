@@ -282,7 +282,7 @@ public class MineActivity extends AppCompatActivity {
         Button goBack = (Button)popupView.findViewById(R.id.goBack);
         final TextView sc = (TextView)popupView.findViewById(R.id.sc);
 
-        final int score_ = score;
+        final int score_ = score*100;
 
         runOnUiThread(new Runnable (){
             public void run() {
@@ -291,7 +291,7 @@ public class MineActivity extends AppCompatActivity {
             }
         });
 
-        GameBoardActivity.user_player.addGold(score);
+        GameBoardActivity.user_player.addGold(score_);
 
         goBack.setOnClickListener(new Button.OnClickListener(){
             @Override

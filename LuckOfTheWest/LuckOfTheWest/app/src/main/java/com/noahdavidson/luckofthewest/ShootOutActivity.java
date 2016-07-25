@@ -43,15 +43,15 @@ public class ShootOutActivity extends AppCompatActivity {
         background_sound = MediaPlayer.create(ShootOutActivity.this, R.raw.whistling_credit_qubodup);
         background_sound.start();
         button_sounds = new MediaPlayer[BOARD_SIZE];
-        button_sounds[0] = MediaPlayer.create(ShootOutActivity.this, R.raw.shot_1_credit_Rock_Savage);
-        button_sounds[1] = MediaPlayer.create(ShootOutActivity.this, R.raw.shot_2_credit_Rock_Savage);
-        button_sounds[2] = MediaPlayer.create(ShootOutActivity.this, R.raw.shot_3_credit_Rock_Savage);
-        button_sounds[3] = MediaPlayer.create(ShootOutActivity.this, R.raw.shot_2_credit_Rock_Savage);
-        button_sounds[4] = MediaPlayer.create(ShootOutActivity.this, R.raw.shot_1_credit_Rock_Savage);
-        button_sounds[5] = MediaPlayer.create(ShootOutActivity.this, R.raw.shot_3_credit_Rock_Savage);
-        button_sounds[6] = MediaPlayer.create(ShootOutActivity.this, R.raw.shot_3_credit_Rock_Savage);
-        button_sounds[7] = MediaPlayer.create(ShootOutActivity.this, R.raw.shot_2_credit_Rock_Savage);
-        button_sounds[8] = MediaPlayer.create(ShootOutActivity.this, R.raw.shot_1_credit_Rock_Savage);
+        button_sounds[0] = MediaPlayer.create(ShootOutActivity.this, R.raw.shot_1_credit_rock_savage);
+        button_sounds[1] = MediaPlayer.create(ShootOutActivity.this, R.raw.shot_2_credit_rock_savage);
+        button_sounds[2] = MediaPlayer.create(ShootOutActivity.this, R.raw.shot_3_credit_rock_savage);
+        button_sounds[3] = MediaPlayer.create(ShootOutActivity.this, R.raw.shot_2_credit_rock_savage);
+        button_sounds[4] = MediaPlayer.create(ShootOutActivity.this, R.raw.shot_1_credit_rock_savage);
+        button_sounds[5] = MediaPlayer.create(ShootOutActivity.this, R.raw.shot_3_credit_rock_savage);
+        button_sounds[6] = MediaPlayer.create(ShootOutActivity.this, R.raw.shot_3_credit_rock_savage);
+        button_sounds[7] = MediaPlayer.create(ShootOutActivity.this, R.raw.shot_2_credit_rock_savage);
+        button_sounds[8] = MediaPlayer.create(ShootOutActivity.this, R.raw.shot_1_credit_rock_savage);
         //Create board
         board_state = new char[BOARD_SIZE];
         board_buttons = new ImageButton[BOARD_SIZE];
