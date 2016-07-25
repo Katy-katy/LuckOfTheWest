@@ -117,6 +117,7 @@ public class MineActivity extends AppCompatActivity {
                     answerSeq.add(random.nextInt(NUM_MINEBUTTONS));
 
                     enableMineButtons(false);
+                    inputQueue.clear();
                     int totalSize = answerSeq.size();
                     for (int i=0; i<totalSize; i++) {
                         blinkButton(answerSeq.get(i));
@@ -303,7 +304,7 @@ public class MineActivity extends AppCompatActivity {
             }});
         runOnUiThread(new Runnable() {
             public void run() {
-                popupWindow.showAtLocation(statusText, Gravity.CENTER, 0, 0);
+                popupWindow.showAtLocation(statusText, Gravity.CENTER, -50, -40);
             }
         });
     }
