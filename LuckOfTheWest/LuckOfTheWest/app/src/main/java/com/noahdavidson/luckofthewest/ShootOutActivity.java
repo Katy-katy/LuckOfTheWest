@@ -25,6 +25,7 @@ public class ShootOutActivity extends AppCompatActivity {
     private final static int BOARD_SIZE = 9;
     private char board_state[];
     private ImageButton board_buttons[];
+    private int images[];
     private Button draw_button;
     private static final char EMPTY_SPACE = ' ';
     private static final char TAKEN_SPACE = 'O';
@@ -43,15 +44,26 @@ public class ShootOutActivity extends AppCompatActivity {
         background_sound = MediaPlayer.create(ShootOutActivity.this, R.raw.whistling_credit_qubodup);
         background_sound.start();
         button_sounds = new MediaPlayer[BOARD_SIZE];
-        button_sounds[0] = MediaPlayer.create(ShootOutActivity.this, R.raw.shot_1_credit_Rock_Savage);
-        button_sounds[1] = MediaPlayer.create(ShootOutActivity.this, R.raw.shot_2_credit_Rock_Savage);
-        button_sounds[2] = MediaPlayer.create(ShootOutActivity.this, R.raw.shot_3_credit_Rock_Savage);
-        button_sounds[3] = MediaPlayer.create(ShootOutActivity.this, R.raw.shot_2_credit_Rock_Savage);
-        button_sounds[4] = MediaPlayer.create(ShootOutActivity.this, R.raw.shot_1_credit_Rock_Savage);
-        button_sounds[5] = MediaPlayer.create(ShootOutActivity.this, R.raw.shot_3_credit_Rock_Savage);
-        button_sounds[6] = MediaPlayer.create(ShootOutActivity.this, R.raw.shot_3_credit_Rock_Savage);
-        button_sounds[7] = MediaPlayer.create(ShootOutActivity.this, R.raw.shot_2_credit_Rock_Savage);
-        button_sounds[8] = MediaPlayer.create(ShootOutActivity.this, R.raw.shot_1_credit_Rock_Savage);
+        button_sounds[0] = MediaPlayer.create(ShootOutActivity.this, R.raw.shot_1_credit_rock_savage);
+        button_sounds[1] = MediaPlayer.create(ShootOutActivity.this, R.raw.shot_2_credit_rock_savage);
+        button_sounds[2] = MediaPlayer.create(ShootOutActivity.this, R.raw.shot_3_credit_rock_savage);
+        button_sounds[3] = MediaPlayer.create(ShootOutActivity.this, R.raw.shot_2_credit_rock_savage);
+        button_sounds[4] = MediaPlayer.create(ShootOutActivity.this, R.raw.shot_1_credit_rock_savage);
+        button_sounds[5] = MediaPlayer.create(ShootOutActivity.this, R.raw.shot_3_credit_rock_savage);
+        button_sounds[6] = MediaPlayer.create(ShootOutActivity.this, R.raw.shot_3_credit_rock_savage);
+        button_sounds[7] = MediaPlayer.create(ShootOutActivity.this, R.raw.shot_2_credit_rock_savage);
+        button_sounds[8] = MediaPlayer.create(ShootOutActivity.this, R.raw.shot_1_credit_rock_savage);
+        //Create image containers
+        images = new int[BOARD_SIZE];
+        images[0] = R.drawable.bullet_hole_0;
+        images[1] = R.drawable.bullet_hole_1;
+        images[2] = R.drawable.bullet_hole_2;
+        images[3] = R.drawable.bullet_hole_3;
+        images[4] = R.drawable.bullet_hole_4;
+        images[5] = R.drawable.bullet_hole_5;
+        images[6] = R.drawable.bullet_hole_6;
+        images[7] = R.drawable.bullet_hole_7;
+        images[8] = R.drawable.bullet_hole_8;
         //Create board
         board_state = new char[BOARD_SIZE];
         board_buttons = new ImageButton[BOARD_SIZE];
@@ -89,10 +101,9 @@ public class ShootOutActivity extends AppCompatActivity {
                         player_turn = 0;
                     }
                     if (player_turn == 0) {
-                        waitForMs(2000);
                         aiMove();
                     }
-                    drawBoard();
+                    //drawBoard();
                 } while (!checkForLoser());
                 resolve();
             }
@@ -111,14 +122,16 @@ public class ShootOutActivity extends AppCompatActivity {
     }
 
     //Generate move for ai
-    protected int aiMove() {
+    protected void aiMove() {
+        waitForMs(2000);
         int move;
         do {
             move = rand_num.nextInt(BOARD_SIZE);
         } while (board_state[move] == TAKEN_SPACE);
         board_state[move] = TAKEN_SPACE;
+        setButtonImage(move, images[move]);
+        setButtonEnable(move, false);
         player_turn++;
-        return move;
     }
 
     //Check for 3-in-a-row
@@ -156,46 +169,64 @@ public class ShootOutActivity extends AppCompatActivity {
     //OnClick functions for buttons
     public void onClickButton0(View view) {
         board_state[0] = TAKEN_SPACE;
+        setButtonImage(0, images[0]);
+        setButtonEnable(0, false);
         player_turn++;
     }
 
     public void onClickButton1(View view) {
         board_state[1] = TAKEN_SPACE;
+        setButtonImage(1, images[1]);
+        setButtonEnable(1, false);
         player_turn++;
     }
 
     public void onClickButton2(View view) {
         board_state[2] = TAKEN_SPACE;
+        setButtonImage(2, images[2]);
+        setButtonEnable(2, false);
         player_turn++;
     }
 
     public void onClickButton3(View view) {
         board_state[3] = TAKEN_SPACE;
+        setButtonImage(3, images[3]);
+        setButtonEnable(3, false);
         player_turn++;
     }
 
     public void onClickButton4(View view) {
         board_state[4] = TAKEN_SPACE;
+        setButtonImage(4, images[4]);
+        setButtonEnable(4, false);
         player_turn++;
     }
 
     public void onClickButton5(View view) {
         board_state[5] = TAKEN_SPACE;
+        setButtonImage(5, images[5]);
+        setButtonEnable(5, false);
         player_turn++;
     }
 
     public void onClickButton6(View view) {
         board_state[6] = TAKEN_SPACE;
+        setButtonImage(6, images[6]);
+        setButtonEnable(6, false);
         player_turn++;
     }
 
     public void onClickButton7(View view) {
         board_state[7] = TAKEN_SPACE;
+        setButtonImage(7, images[7]);
+        setButtonEnable(7, false);
         player_turn++;
     }
 
     public void onClickButton8(View view) {
         board_state[8] = TAKEN_SPACE;
+        setButtonImage(8, images[8]);
+        setButtonEnable(8, false);
         player_turn++;
     }
 
@@ -209,6 +240,7 @@ public class ShootOutActivity extends AppCompatActivity {
     }
 
     //Set src image values for buttons
+    /*
     protected void drawBoard() {
         if (board_state[0] == TAKEN_SPACE) {
             setButtonImage(0, R.drawable.bullet_hole_0);
@@ -247,8 +279,8 @@ public class ShootOutActivity extends AppCompatActivity {
             setButtonEnable(8, false);
         }
     }
-
-    //
+    */
+    //Allows thread to change button images
     private void setButtonImage(final int buttonNum, final int image) {
         runOnUiThread(new Runnable() {
             @Override
