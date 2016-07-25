@@ -255,6 +255,9 @@ public class SchoolActivity extends AppCompatActivity {
 
                 popupWindow.showAtLocation(button5, Gravity.CENTER, 0, 0);
                 timerValue.setText("00:00:000");
+                for (Button but : buttons) {
+                    but.setEnabled(false);
+                }
                 return;
 
             }
