@@ -28,7 +28,8 @@ public class LiarsDiceActivity extends AppCompatActivity{
             R.drawable.six,R.drawable.seven,R.drawable.eight,R.drawable.nine,R.drawable.ten,
             R.drawable.eleven,R.drawable.twelve,R.drawable.thirteen,R.drawable.fourteen,R.drawable.fifteen,
             R.drawable.sixteen,R.drawable.seventeen,R.drawable.eightteen,R.drawable.nineteen,R.drawable.twenty,
-            R.drawable.twentyone,R.drawable.twentytwo,R.drawable.twentythree,R.drawable.twentyfour,R.drawable.twentyfive};
+            R.drawable.twentyone,R.drawable.twentytwo,R.drawable.twentythree,R.drawable.twentyfour,R.drawable.twentyfive,
+            R.drawable.liar};
 
     int[] dice_img = new int[]{R.drawable.dice_one,R.drawable.dice_two,R.drawable.dice_three,R.drawable.dice_four,R.drawable.dice_five,
             R.drawable.dice_six};
@@ -171,7 +172,7 @@ public class LiarsDiceActivity extends AppCompatActivity{
         while (nextPlayer < 5 && allPlayersNumDice[nextPlayer] == 0){
             nextPlayer++;
         }
-        if(nextPlayer == 5){
+        if(nextPlayer >= 5){
             nextPlayer = 0;
         }
 
@@ -187,32 +188,71 @@ public class LiarsDiceActivity extends AppCompatActivity{
         }
     }
 
+    public void clearAiHands (){
+        runOnUiThread(new Runnable() {
+            public void run() {
+                if (player == 2) {
+                    Log.d(TAG, "AI 1 Liar");
+                    AI_SHOW_CALL[0].setImageResource(android.R.color.transparent);
+                    AI_SHOW_CALL[1].setImageResource(android.R.color.transparent);
+                } else if (player == 3) {
+                    Log.d(TAG, "AI 2 Liar");
+                    AI_SHOW_CALL[2].setImageResource(android.R.color.transparent);
+                    AI_SHOW_CALL[3].setImageResource(android.R.color.transparent);
+                } else if (player == 4) {
+                    Log.d(TAG, "AI 3 Liar");
+                    AI_SHOW_CALL[4].setImageResource(android.R.color.transparent);
+                    AI_SHOW_CALL[5].setImageResource(android.R.color.transparent);
+                } else if (player == 0) {
+                    Log.d(TAG, "AI 4 Liar");
+                    AI_SHOW_CALL[6].setImageResource(android.R.color.transparent);
+                    AI_SHOW_CALL[7].setImageResource(android.R.color.transparent);
+                }
+            }
+        });
+    }
+
+    public void showAiLiar(){
+        runOnUiThread(new Runnable() {
+            public void run() {
+                if (player == 1) {
+                    Log.d(TAG, "AI 1 Liar");
+                    AI_SHOW_CALL[0].setImageResource(matches_img[25]);
+                    AI_SHOW_CALL[1].setImageResource(android.R.color.transparent);
+                } else if (player == 2) {
+                    Log.d(TAG, "AI 2 Liar");
+                    AI_SHOW_CALL[2].setImageResource(matches_img[25]);
+                    AI_SHOW_CALL[3].setImageResource(android.R.color.transparent);
+                } else if (player == 3) {
+                    Log.d(TAG, "AI 3 Liar");
+                    AI_SHOW_CALL[4].setImageResource(matches_img[25]);
+                    AI_SHOW_CALL[5].setImageResource(android.R.color.transparent);
+                } else if (player == 4) {
+                    Log.d(TAG, "AI 4 Liar");
+                    AI_SHOW_CALL[6].setImageResource(matches_img[25]);
+                    AI_SHOW_CALL[7].setImageResource(android.R.color.transparent);
+                }
+            }
+        });
+    }
+
     //DISPLAY LAST AI CALL
     public void showLastAiCall (){
         runOnUiThread(new Runnable() {
             public void run() {
-                //WHY ARE PLAYERS NOT CORRECT VALUES//
-                //MAY CAUSE FUTURE ERROR//
-                /*
-                Context context = getApplicationContext();
-                CharSequence text = "AI" + player;
-                int duration = Toast.LENGTH_SHORT;
-                Toast.makeText(context, text + " turn", duration);
-                */
-
-                if (player == 2) {
+                if (player == 1) {
                     Log.d(TAG,"show AI 1 CAll");
                     AI_SHOW_CALL[0].setImageResource(matches_img[getLastCall() - 1]);
                     AI_SHOW_CALL[1].setImageResource(dice_img[getLastDice() - 1]);
-                } else if (player == 3) {
+                } else if (player == 2) {
                     Log.d(TAG,"show AI 2 CAll");
                     AI_SHOW_CALL[2].setImageResource(matches_img[getLastCall() - 1]);
                     AI_SHOW_CALL[3].setImageResource(dice_img[getLastDice() - 1]);
-                } else if (player == 4) {
+                } else if (player == 3) {
                     Log.d(TAG,"show AI 3 CAll");
                     AI_SHOW_CALL[4].setImageResource(matches_img[getLastCall() - 1]);
                     AI_SHOW_CALL[5].setImageResource(dice_img[getLastDice() - 1]);
-                } else if (player == 0) {
+                } else if (player == 4) {
                     Log.d(TAG,"show AI 4 CAll");
                     AI_SHOW_CALL[6].setImageResource(matches_img[getLastCall() - 1]);
                     AI_SHOW_CALL[7].setImageResource(dice_img[getLastDice() - 1]);
@@ -224,23 +264,136 @@ public class LiarsDiceActivity extends AppCompatActivity{
 
     public void aiCall (){
         Log.d(TAG,"Ai call");
+
+        int option  = (int)Math.floor(((Math.random() *10) + 1));
+
         int first = 0;
-        for(int i = 0; i < 5; i++){
-            if(allPlayersDice[getPlayer()][i] > allPlayersDice[getPlayer()][first]){
+
+        for(int i = 0; i < 5;i++){
+            if(allPlayersDice[player][i]>allPlayersDice[player][first])
                 first = i;
-            }
         }
-        int second = 0;
-        for(int j =0;j<5;j++){
-            if(allPlayersDice[getPlayer()][j] > allPlayersDice[getPlayer()][second] && j!=first){
+
+        int second =0;
+        int cheat =0;
+
+        for(int j =0; j < 5; j++){
+            if(allPlayersDice[player][j] > allPlayersDice[player][second] && j != first)
                 second = j;
-            }
+            if(totalDiceHands_with_wilds[j]>totalDiceHands_with_wilds[cheat])
+                cheat = j;
         }
 
-        int cheat = 0;
+        int random  = (int)Math.floor(((Math.random() *3) + 1));
 
-        setLastCall(2);
-        setLastDice(2);
+        if(lastPlayer == -1){
+            if(totalNumOfDice >= 20){
+                lastCall = 3;
+                lastDice = second + 1;
+            }else if(totalNumOfDice >=10 && totalNumOfDice < 20){
+                switch (random){
+                    case 1: lastCall = 2; break;
+                    case 2: lastCall = 3; break;
+                    case 3: lastCall = 4; break;
+                }
+                lastDice = second + 1;
+
+            }else if (totalNumOfDice > 5 && totalNumOfDice < 10){
+                switch (random){
+                    case 1: lastCall = 1; break;
+                    default:lastCall =2;
+                }
+                lastDice = first + 1;
+            }else{
+                lastCall = 1;
+                lastDice = cheat + 1;
+            }
+        }else if(totalNumOfDice > 5){
+            switch (option){
+                case 1:
+                case 2:
+                case 3:
+                case 4:
+                    choose(first); break;
+                case 5:
+                case 6:
+                    choose(second); break;
+                case 7:
+                case 8:
+                    cheat(cheat); break;
+                default:
+                    lastCall = lastCall +1;
+            }
+        }else{
+            switch (option){
+                case 1:
+                case 2:
+                    choose(first); break;
+                case 3:
+                case 4:
+                case 5:
+                    cheat(cheat); break;
+                default:
+                    if(lastDice == 6){
+                        choose(cheat);
+                    }else{
+                        lastDice += 1;
+                    }
+            }
+        }
+    }
+
+    public void choose(int choice){
+        if(totalNumOfDice >= 20){
+            if(lastCall > totalNumOfDice/2 || (lastCall > 6 && allPlayersDice[player][lastDice-1] < 3)){
+                liarCalled = true;
+            }else{
+                makeCall(choice);
+            }
+
+        }else if(totalNumOfDice >= 10){
+            if((lastCall > 7 && totalNumOfDice < 15) || (lastCall > totalNumOfDice/2 && allPlayersDice[lastPlayer][lastDice-1]<2
+                    && totalNumOfDice >= 15)){
+                liarCalled = true;
+            }else if(allPlayersDice[lastPlayer][lastDice-1] + allPlayersDice[player][lastDice-1] < lastCall/2
+                    && lastCall > 5){
+                liarCalled = true;
+            }else{
+                makeCall(choice);
+            }
+        }else if(totalNumOfDice > 5){
+            if(lastCall > 5){
+                liarCalled = true;
+            }else if(allPlayersDice[lastPlayer][lastDice - 1] < 3 && lastCall > 3){
+                liarCalled = true;
+            }else{
+                makeCall(choice);
+            }
+        }else{
+            if(lastCall >= 3){
+                liarCalled = true;
+            }else if (allPlayersDice[lastPlayer][lastDice-1] < 1){
+                liarCalled = true;
+            }else{
+                makeCall(choice);
+            }
+        }
+    }
+
+    public void cheat(int cheat){
+       if (lastCall > totalDiceHands_with_wilds[lastDice - 1]){
+           liarCalled = true;
+       }else{
+           makeCall(cheat);
+       }
+    }
+
+    public void makeCall(int choice){
+        if(lastDice - 1 < choice){
+        }else{
+            lastCall += 1;
+        }
+        lastDice = choice + 1;
     }
 
     public void liar (int[]totalDiceHands_with_wilds, int []allPlayersNumDice){
@@ -284,6 +437,7 @@ public class LiarsDiceActivity extends AppCompatActivity{
         //check if player wins
         checkWinner();
 
+        clearAiHands();
         resetHands();
     }
 
@@ -322,20 +476,24 @@ public class LiarsDiceActivity extends AppCompatActivity{
                     inputQueue.remove(0);
                     break;
                 }
-
             }
+
         }else{
-            Log.d(TAG,"AI turn");
-            Log.d(TAG,"AI Called Liar: " + liarCalled);
+            Log.d(TAG,"AI turn: " + player);
 
             hideUI();
             disableButtons();
             setLiarCalled(false);
             aiCall();
-            Log.d(TAG,""+player);
-
+            Log.d(TAG,"AI " + player + " Called Liar: " + liarCalled);
             if(!isLiarCalled()){
                 showLastAiCall();
+                waitForMs(500);
+                lastPlayer = player;
+                player = nextPlayerUp(player);
+            }else{
+                showAiLiar();
+                waitForMs(500);
             }
         }
     }
@@ -352,8 +510,6 @@ public class LiarsDiceActivity extends AppCompatActivity{
                     if (liarCalled) {
                                 liar(totalDiceHands_with_wilds, allPlayersNumDice);
                     }
-
-                    setPlayer(nextPlayerUp(player));
                 }
             }
         };
@@ -424,15 +580,16 @@ public class LiarsDiceActivity extends AppCompatActivity{
                         int duration = Toast.LENGTH_SHORT;
 
                         Toast.makeText(context, text,duration).show();
+                    }else {
+                        setLastCall(MATCH_BID);
+                        setLastDice(DICE_BID);
+
+                        setLastPlayer(0);
+                        player = nextPlayerUp(player);
+                        setLiarCalled(false);
+
+                        turnButPressed(0);
                     }
-                    setLastCall(MATCH_BID);
-                    setLastDice(DICE_BID);
-
-                    setLastPlayer(0);
-                    setLiarCalled(false);
-
-                    turnButPressed(0);
-
                     Log.d(TAG,"Call: "+lastCall +", Dice: " + lastDice);
 
                     //int nextPlayer = nextPlayerUp();
@@ -725,28 +882,28 @@ public class LiarsDiceActivity extends AppCompatActivity{
         if(allPlayersNumDice[0] > 0){
             genHand(playerDice,allPlayersNumDice[0]);
 
-            Log.d(TAG,"P1: "+playerDice[0]+","+playerDice[1]+","+playerDice[2]+","+playerDice[3]+","+playerDice[4]+","+playerDice[5]);
+            Log.d(TAG,"P0: "+playerDice[0]+","+playerDice[1]+","+playerDice[2]+","+playerDice[3]+","+playerDice[4]+","+playerDice[5]);
 
         }
         if(allPlayersNumDice[1] > 0){
             genHand(player1Dice,allPlayersNumDice[1]);
 
-            Log.d(TAG,"P2: "+player1Dice[0]+","+player1Dice[1]+","+player1Dice[2]+","+player1Dice[3]+","+player1Dice[4]+","+player1Dice[5]);
+            Log.d(TAG,"P1: "+player1Dice[0]+","+player1Dice[1]+","+player1Dice[2]+","+player1Dice[3]+","+player1Dice[4]+","+player1Dice[5]);
         }
         if(allPlayersNumDice[2] > 0){
             genHand(player2Dice,allPlayersNumDice[2]);
 
-            Log.d(TAG,"P3: "+player2Dice[0]+","+player2Dice[1]+","+player2Dice[2]+","+player2Dice[3]+","+player2Dice[4]+","+player2Dice[5]);
+            Log.d(TAG,"P2: "+player2Dice[0]+","+player2Dice[1]+","+player2Dice[2]+","+player2Dice[3]+","+player2Dice[4]+","+player2Dice[5]);
         }
         if(allPlayersNumDice[3] > 0){
             genHand(player3Dice,allPlayersNumDice[3]);
 
-            Log.d(TAG,"P4: "+player3Dice[0]+","+player3Dice[1]+","+player3Dice[2]+","+player3Dice[3]+","+player3Dice[4]+","+player3Dice[5]);
+            Log.d(TAG,"P3: "+player3Dice[0]+","+player3Dice[1]+","+player3Dice[2]+","+player3Dice[3]+","+player3Dice[4]+","+player3Dice[5]);
         }
         if(allPlayersNumDice[4] > 0){
             genHand(player4Dice,allPlayersNumDice[4]);
 
-            Log.d(TAG,"P5: "+player4Dice[0]+","+player4Dice[1]+","+player4Dice[2]+","+player4Dice[3]+","+player4Dice[4]+","+player4Dice[5]);
+            Log.d(TAG,"P4: "+player4Dice[0]+","+player4Dice[1]+","+player4Dice[2]+","+player4Dice[3]+","+player4Dice[4]+","+player4Dice[5]);
         }
     }
 
