@@ -36,6 +36,7 @@
         <activity
             android:name=".SchoolActivity"
             android:label="School Screen"
+            android:screenOrientation="portrait"
             >
         </activity>
 

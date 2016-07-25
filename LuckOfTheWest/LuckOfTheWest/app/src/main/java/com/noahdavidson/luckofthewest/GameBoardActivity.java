@@ -30,10 +30,10 @@ public class GameBoardActivity extends AppCompatActivity {
         //SET FONT TYPE
         setFonts();
         //Start background music
-        background_music = MediaPlayer.create(MainActivity.this, R.raw.western_theme_1);
+        background_music = MediaPlayer.create(GameBoardActivity.this, R.raw.western_theme_1);
         background_music.start();
         //Set button sound
-        button_sound = MediaPlayer.create(MainActivity.this, R.raw.door_1_credit_suhral);
+        button_sound = MediaPlayer.create(GameBoardActivity.this, R.raw.door_1_credit_suhral);
 
     }
 
