@@ -302,6 +302,7 @@ public class MineActivity extends AppCompatActivity {
             public void run() {
                 sc.setText("$"+ score_);
                 sc.setTextSize(28);
+                sc.setTextColor(Color.GREEN);
             }
         });
 

@@ -18,7 +18,8 @@
         android:onClick="startSchool"
         android:layout_centerVertical="true"
         android:layout_alignRight="@+id/Day"
-        android:layout_alignEnd="@+id/Day" />
+        android:layout_alignEnd="@+id/Day"
+        android:textColor="#dd1c1c" />
 
 
 
@@ -50,7 +51,8 @@
         android:gravity="top|center_horizontal"
         android:paddingTop="60dp"
         android:layout_toLeftOf="@+id/schoolButton"
-        android:layout_toStartOf="@+id/schoolButton" />
+        android:layout_toStartOf="@+id/schoolButton"
+        android:textColor="#083307" />
 
     <Button
         android:layout_width="wrap_content"
@@ -65,7 +67,8 @@
         android:paddingTop="60dp"
         android:layout_alignTop="@+id/imageview_animation_downarrow3"
         android:layout_alignLeft="@+id/miningButton"
-        android:layout_alignStart="@+id/miningButton" />
+        android:layout_alignStart="@+id/miningButton"
+        android:textColor="#d2b71b" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -126,7 +129,8 @@
         android:layout_toRightOf="@+id/Day"
         android:layout_toEndOf="@+id/Day"
         android:layout_marginLeft="84dp"
-        android:layout_marginStart="84dp" />
+        android:layout_marginStart="84dp"
+        android:paddingLeft="10dp" />
 
 
 

@@ -1,6 +1,7 @@
 package com.noahdavidson.luckofthewest;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -213,6 +214,7 @@ public class SchoolActivity extends AppCompatActivity {
         TextView sc = (TextView)popupView.findViewById(R.id.sc);
         sc.setText("$"+ updatedTime);
         sc.setTextSize(28);
+        sc.setTextColor(Color.GREEN);
         GameBoardActivity.user_player.addGold( (int)updatedTime);
 
         goBack.setOnClickListener(new Button.OnClickListener(){

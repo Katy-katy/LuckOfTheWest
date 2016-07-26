@@ -25,7 +25,6 @@ public class SaloonActivity extends AppCompatActivity {
 
     int player_gold = GameBoardActivity.user_player.getGold();
     int wageMin = 50;
-    int wager = 100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +60,7 @@ public class SaloonActivity extends AppCompatActivity {
                                 Button close_wager = (Button) wage_box.findViewById(R.id.wager_cancel);
                                 Button confirm_wager = (Button) wage_box.findViewById(R.id.wager_confirm);
 
-                                wage_bid.setText("" + wager);
+                                wage_bid.setText("" + GameBoardActivity.user_player.getWager());
 
                                 Thread t = new Thread() {
 
@@ -73,7 +72,7 @@ public class SaloonActivity extends AppCompatActivity {
                                                 runOnUiThread(new Runnable() {
                                                     @Override
                                                     public void run() {
-                                                        wage_bid.setText("" + wager);
+                                                        wage_bid.setText("" + GameBoardActivity.user_player.getWager());
                                                     }
                                                 });
                                             }
@@ -87,14 +86,16 @@ public class SaloonActivity extends AppCompatActivity {
                                 inc_wager.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
-                                        incWage();
+                                        //incWage();
+                                        GameBoardActivity.user_player.incWager();
                                     }
                                 });
 
                                 dec_wager.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
-                                        decWage();
+                                        //decWage();
+                                        GameBoardActivity.user_player.decWager();
                                     }
                                 });
 
@@ -109,7 +110,7 @@ public class SaloonActivity extends AppCompatActivity {
                                 confirm_wager.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
-                                        GameBoardActivity.user_player.setGold((player_gold - wager));
+                                        GameBoardActivity.user_player.setGold((player_gold - GameBoardActivity.user_player.getWager()));
                                         wage_box.dismiss();
                                         Intent intent = new Intent(SaloonActivity.this, LiarsDiceActivity.class);
                                         startActivity(intent);
@@ -127,18 +128,6 @@ public class SaloonActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-    }
-
-    public void incWage (){
-        if (wager + 10 < player_gold){
-            wager += 10;
-        }
-    }
-
-    public void decWage(){
-        if (wager > wageMin){
-            wager -= 10;
-        }
     }
 
 }

@@ -2,15 +2,23 @@ package com.noahdavidson.luckofthewest;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.PopupWindow;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -23,6 +31,9 @@ import java.util.ArrayList;
 public class LiarsDiceActivity extends AppCompatActivity{
 
     private static final String TAG = LiarsDiceActivity.class.getSimpleName();
+
+    private MediaPlayer cup_sound;
+    private MediaPlayer dice_sound;
 
     int[] matches_img = new int[]{R.drawable.one,R.drawable.two,R.drawable.three,R.drawable.four,R.drawable.five,
             R.drawable.six,R.drawable.seven,R.drawable.eight,R.drawable.nine,R.drawable.ten,
@@ -70,11 +81,16 @@ public class LiarsDiceActivity extends AppCompatActivity{
     private int MATCH_BID;
     private int DICE_BID;
 
+    String end_State = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_liars_dice);
+
+        dice_sound = MediaPlayer.create(LiarsDiceActivity.this,R.raw.dice_credit_mrauralization);
+        cup_sound = MediaPlayer.create(LiarsDiceActivity.this,R.raw.cup_credit_atlaslives);
 
         AI_SHOW_CALL = new ImageView[8];
         AI_SHOW_CALL[0] = (ImageView) findViewById(R.id.P2Match);
@@ -131,6 +147,8 @@ public class LiarsDiceActivity extends AppCompatActivity{
 
         //start game
         startTurns();
+
+        //showPopUp();
     }
 
     @Override
@@ -191,23 +209,17 @@ public class LiarsDiceActivity extends AppCompatActivity{
     public void clearAiHands (){
         runOnUiThread(new Runnable() {
             public void run() {
-                if (player == 2) {
-                    Log.d(TAG, "AI 1 Liar");
                     AI_SHOW_CALL[0].setImageResource(android.R.color.transparent);
                     AI_SHOW_CALL[1].setImageResource(android.R.color.transparent);
-                } else if (player == 3) {
-                    Log.d(TAG, "AI 2 Liar");
+
                     AI_SHOW_CALL[2].setImageResource(android.R.color.transparent);
                     AI_SHOW_CALL[3].setImageResource(android.R.color.transparent);
-                } else if (player == 4) {
-                    Log.d(TAG, "AI 3 Liar");
+
                     AI_SHOW_CALL[4].setImageResource(android.R.color.transparent);
                     AI_SHOW_CALL[5].setImageResource(android.R.color.transparent);
-                } else if (player == 0) {
-                    Log.d(TAG, "AI 4 Liar");
+
                     AI_SHOW_CALL[6].setImageResource(android.R.color.transparent);
                     AI_SHOW_CALL[7].setImageResource(android.R.color.transparent);
-                }
             }
         });
     }
@@ -287,6 +299,8 @@ public class LiarsDiceActivity extends AppCompatActivity{
         int random  = (int)Math.floor(((Math.random() *3) + 1));
 
         if(lastPlayer == -1){
+            clearAiHands();
+            waitForMs(500);
             if(totalNumOfDice >= 20){
                 lastCall = 3;
                 lastDice = second + 1;
@@ -401,16 +415,43 @@ public class LiarsDiceActivity extends AppCompatActivity{
         //show "player calls "lastplayer"
         //show lastcall, lasxtdice
         // show there are totaldicehands[lastDice -1],lastdice
-
+        waitForMs(500);
         if(getLastCall() > totalDiceHands_with_wilds[getLastDice()-1]){
-            allPlayersNumDice[getLastPlayer()]-=1;
+            allPlayersNumDice[lastPlayer]-=1;
             if(allPlayersNumDice[getLastPlayer()] != 0){
                 setPlayer(getLastPlayer());
             }else{
                 setPlayer(getPlayer());
             }
+            runOnUiThread(new Runnable () {
+                public void run() {
+                    Toast toast = Toast.makeText(getApplicationContext(),
+                            "PLAYER " + lastPlayer + " LOST 1 DICE", Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
+                    toast.show();
+                }
+            });
+            waitForMs(500);
+
         }else if(getLastCall() <= totalDiceHands_with_wilds[getLastDice()-1]){
             allPlayersNumDice[getPlayer()]-=1;
+            runOnUiThread(new Runnable () {
+                public void run() {
+                    if(player == 0){
+                        Toast toast = Toast.makeText(getApplicationContext(),
+                                "YOU LOST 1 DICE", Toast.LENGTH_SHORT);
+                        toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
+                        toast.show();
+
+                    }else {
+                        Toast toast = Toast.makeText(getApplicationContext(),
+                                "PLAYER " + player + "LOST 1 DICE", Toast.LENGTH_SHORT);
+                        toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
+                        toast.show();
+                    }
+                }
+            });
+            waitForMs(500);
             if(allPlayersNumDice[getPlayer()] != 0){
                 setPlayer(getPlayer());
             }else{
@@ -424,6 +465,9 @@ public class LiarsDiceActivity extends AppCompatActivity{
                     setPlayer(i);
                 }
             }
+
+
+
         }
         setLastPlayer(-1);
         setLastCall(0);
@@ -445,17 +489,59 @@ public class LiarsDiceActivity extends AppCompatActivity{
         if(allPlayersNumDice[1] == 0 &&
                 allPlayersNumDice[2] == 0 &&
                     allPlayersNumDice[3] == 0 &&
-                        allPlayersNumDice[4] == 0)
+                        allPlayersNumDice[4] == 0){
+            winner = true;
+            GameBoardActivity.user_player.setWinnings(GameBoardActivity.user_player.getWager() * 4);
+            //showPopUp();
 
-            setWinner(true);
+        }
+
+
     }
 
     public void checkLoser(){
         if(allPlayersNumDice[0] == 0){
             setLoser(true);
+            GameBoardActivity.user_player.setWinnings(0);
+            //showPopUp();
             //setPlayer(0);
             //setTotalNumOfDice(25);
         }
+    }
+
+    private void showPopUp() {
+        LayoutInflater layoutInflater = (LayoutInflater)getBaseContext()
+                .getSystemService(LAYOUT_INFLATER_SERVICE);
+        View popupView = layoutInflater.inflate(R.layout.popup, null);
+        final PopupWindow popupWindow = new PopupWindow(
+                popupView,
+                ActionBar.LayoutParams.WRAP_CONTENT,
+                ActionBar.LayoutParams.WRAP_CONTENT);
+        //Button playAgain = (Button)popupView.findViewById(R.id.playAgain);
+        Button goBack = (Button)popupView.findViewById(R.id.goBack);
+        final TextView sc = (TextView)popupView.findViewById(R.id.sc);
+        runOnUiThread(new Runnable () {
+            public void run() {
+                sc.setText("$" + GameBoardActivity.user_player.getWinnings());
+                sc.setTextSize(28);
+                sc.setTextColor(Color.GREEN);
+            }
+        });
+        GameBoardActivity.user_player.addGold( GameBoardActivity.user_player.getWinnings());
+
+        goBack.setOnClickListener(new Button.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LiarsDiceActivity.this ,GameBoardActivity.class);
+                startActivity(intent);
+
+            }});
+
+        runOnUiThread(new Runnable () {
+            public void run() {
+                popupWindow.showAtLocation(AI_SHOW_CALL[2], Gravity.CENTER, 0, 0);
+            }
+        });
     }
 
     public void turn(){
@@ -466,6 +552,10 @@ public class LiarsDiceActivity extends AppCompatActivity{
             Log.d(TAG,"Last player turn: " + lastPlayer);
             showUI();
             enableButtons();
+            if(lastPlayer == -1){
+                clearAiHands();
+                waitForMs(500);
+            }
 
             //WAIT FOR PLAYER INPUT//
             while(true){
@@ -503,14 +593,17 @@ public class LiarsDiceActivity extends AppCompatActivity{
         Runnable runnable = new Runnable() {
             public void run() {
                 //Start Turns
-                while (winner != true || loser != true) {
+                while (winner != true && loser != true) {
                     waitForMs(1000);
                     turn();
 
                     if (liarCalled) {
                                 liar(totalDiceHands_with_wilds, allPlayersNumDice);
                     }
+                    Log.d(TAG, "Winner: " + winner + ", Loser: " + loser);
+                    waitForMs(500);
                 }
+                showPopUp();
             }
         };
 
@@ -770,6 +863,8 @@ public class LiarsDiceActivity extends AppCompatActivity{
                             ImageView dice4 = (ImageView) show_hand_box.findViewById(R.id.dice4);
                             ImageView dice5 = (ImageView) show_hand_box.findViewById(R.id.dice5);
                             final ImageView[] player_hand_view = new ImageView[]{dice1, dice2, dice3, dice4, dice5};
+
+                            cup_sound.start();
 
                             int dCount = 0;
                             while (dCount < allPlayersNumDice[0]) {

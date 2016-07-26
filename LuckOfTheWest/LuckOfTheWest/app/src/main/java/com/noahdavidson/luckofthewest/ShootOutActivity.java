@@ -1,6 +1,7 @@
 package com.noahdavidson.luckofthewest;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 //import android.os.Handler;
@@ -117,6 +118,7 @@ public class ShootOutActivity extends AppCompatActivity {
                     //drawBoard();
                 } while (!checkForLoser());
                 resolve();
+                waitForMs(500);
             }
         };
         Thread runGame = new Thread (runnable);
@@ -151,6 +153,7 @@ public class ShootOutActivity extends AppCompatActivity {
             public void run() {
                 sc.setText("$"+ score_);
                 sc.setTextSize(28);
+                sc.setTextColor(Color.GREEN);
             }
         });
         GameBoardActivity.user_player.addGold( (int)score_);
