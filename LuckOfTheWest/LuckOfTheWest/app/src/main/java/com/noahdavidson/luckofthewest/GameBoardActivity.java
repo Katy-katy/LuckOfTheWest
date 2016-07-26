@@ -93,7 +93,7 @@ public class GameBoardActivity extends AppCompatActivity {
 
     public void setFonts (){
         //GET FONT
-        Typeface custom_font = Typeface.createFromAsset(getAssets(),  "fonts/Romantiques.ttf");
+        Typeface custom_font = Typeface.createFromAsset(getAssets(),  "fonts/Montague.ttf");
         //SET FONTS TO BUTTONS
         Button txBank = (Button)findViewById(R.id.bank_button);
         txBank.setTypeface(custom_font);

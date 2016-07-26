@@ -12,7 +12,7 @@
         android:background="@null"
         android:height="170dp"
         android:width="130dp"
-        android:textSize="15dp"
+        android:textSize="20dp"
         android:gravity="top|center_horizontal"
         android:paddingTop="50dp"
         android:onClick="startSchool"
@@ -35,7 +35,8 @@
         android:layout_alignBottom="@+id/imageview_animation_downarrow4"
         android:layout_alignRight="@+id/imageview_animation_downarrow3"
         android:layout_alignEnd="@+id/imageview_animation_downarrow3"
-        android:onClick="startMine" />
+        android:onClick="startMine"
+        android:textSize="20dp" />
 
     <Button
         style="?android:attr/buttonStyleSmall"
@@ -47,12 +48,15 @@
         android:background="@null"
         android:width="70dp"
         android:onClick="startBank"
-        android:layout_below="@+id/Score"
         android:gravity="top|center_horizontal"
         android:paddingTop="60dp"
-        android:layout_toLeftOf="@+id/schoolButton"
-        android:layout_toStartOf="@+id/schoolButton"
-        android:textColor="#083307" />
+        android:textColor="#0ff60a"
+        android:textSize="20dp"
+        android:layout_alignTop="@+id/barButton"
+        android:layout_toRightOf="@+id/Score"
+        android:layout_toEndOf="@+id/Score"
+        android:layout_marginLeft="38dp"
+        android:layout_marginStart="38dp" />
 
     <Button
         android:layout_width="wrap_content"
@@ -68,7 +72,9 @@
         android:layout_alignTop="@+id/imageview_animation_downarrow3"
         android:layout_alignLeft="@+id/miningButton"
         android:layout_alignStart="@+id/miningButton"
-        android:textColor="#d2b71b" />
+        android:textColor="#d2b71b"
+        android:textSize="20dp"
+        android:paddingLeft="10dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -130,7 +136,7 @@
         android:layout_toEndOf="@+id/Day"
         android:layout_marginLeft="84dp"
         android:layout_marginStart="84dp"
-        android:paddingLeft="10dp" />
+        android:paddingLeft="30dp" />
 
 
 

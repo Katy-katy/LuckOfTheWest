@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
         //Set button sound
         button_sound = MediaPlayer.create(MainActivity.this, R.raw.ricochet_credit_cedarstudios);
         //GET CUSTOM FONT
-        Typeface custom_font = Typeface.createFromAsset(getAssets(),  "fonts/Romantiques.ttf");
+        Typeface custom_font = Typeface.createFromAsset(getAssets(), "fonts/Montague.ttf");
         //SET TITLE FONT
         TextView tx = (TextView)findViewById(R.id.menuTitle);
         tx.setTypeface(custom_font);
