@@ -156,6 +156,10 @@ public class LiarsDiceActivity extends AppCompatActivity{
         super.onDestroy();
     }
 
+    @Override
+    public void onBackPressed() {
+    }
+
     public void enableButtons(){
         Log.d(TAG,"Enable UI");
         runOnUiThread(new Runnable() {

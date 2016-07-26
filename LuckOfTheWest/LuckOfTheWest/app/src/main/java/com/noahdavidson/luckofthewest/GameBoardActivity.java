@@ -42,6 +42,11 @@ public class GameBoardActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
+    @Override
+    public void onBackPressed() {
+    }
+
+
 
 
 

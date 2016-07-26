@@ -130,4 +130,8 @@ public class SaloonActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
+    @Override
+    public void onBackPressed() {
+    }
+
 }
